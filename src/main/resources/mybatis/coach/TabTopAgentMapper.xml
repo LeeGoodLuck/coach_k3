@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabTopAgentMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabTopAgent" >
+    <id column="top_agent_id" property="topAgentId" jdbcType="BIGINT" />
+    <result column="top_agent_name" property="topAgentName" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="divide" property="divide" jdbcType="DECIMAL" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="wechat_name" property="wechatName" jdbcType="VARCHAR" />
+    <result column="headimg" property="headimg" jdbcType="VARCHAR" />
+    <result column="amount_desirable" property="amountDesirable" jdbcType="DECIMAL" />
+    <result column="amount_freeze" property="amountFreeze" jdbcType="DECIMAL" />
+    <result column="amount_withdraw" property="amountWithdraw" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    top_agent_id, top_agent_name, contacts, tel, account, divide, remarks, status, openid, 
+    unionid, wechat_name, headimg, amount_desirable, amount_freeze, amount_withdraw
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_top_agent
+    where top_agent_id = #{topAgentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_top_agent
+    where top_agent_id = #{topAgentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabTopAgent" >
+    insert into tab_top_agent (top_agent_id, top_agent_name, contacts, 
+      tel, account, divide, 
+      remarks, status, openid, 
+      unionid, wechat_name, headimg, 
+      amount_desirable, amount_freeze, amount_withdraw
+      )
+    values (#{topAgentId,jdbcType=BIGINT}, #{topAgentName,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{divide,jdbcType=DECIMAL}, 
+      #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, 
+      #{unionid,jdbcType=VARCHAR}, #{wechatName,jdbcType=VARCHAR}, #{headimg,jdbcType=VARCHAR}, 
+      #{amountDesirable,jdbcType=DECIMAL}, #{amountFreeze,jdbcType=DECIMAL}, #{amountWithdraw,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabTopAgent" >
+    insert into tab_top_agent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="topAgentId != null" >
+        top_agent_id,
+      </if>
+      <if test="topAgentName != null" >
+        top_agent_name,
+      </if>
+      <if test="contacts != null" >
+        contacts,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="divide != null" >
+        divide,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="unionid != null" >
+        unionid,
+      </if>
+      <if test="wechatName != null" >
+        wechat_name,
+      </if>
+      <if test="headimg != null" >
+        headimg,
+      </if>
+      <if test="amountDesirable != null" >
+        amount_desirable,
+      </if>
+      <if test="amountFreeze != null" >
+        amount_freeze,
+      </if>
+      <if test="amountWithdraw != null" >
+        amount_withdraw,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="topAgentId != null" >
+        #{topAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="topAgentName != null" >
+        #{topAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="divide != null" >
+        #{divide,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null" >
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="amountDesirable != null" >
+        #{amountDesirable,jdbcType=DECIMAL},
+      </if>
+      <if test="amountFreeze != null" >
+        #{amountFreeze,jdbcType=DECIMAL},
+      </if>
+      <if test="amountWithdraw != null" >
+        #{amountWithdraw,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabTopAgent" >
+    update tab_top_agent
+    <set >
+      <if test="topAgentName != null" >
+        top_agent_name = #{topAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="divide != null" >
+        divide = #{divide,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        wechat_name = #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null" >
+        headimg = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="amountDesirable != null" >
+        amount_desirable = #{amountDesirable,jdbcType=DECIMAL},
+      </if>
+      <if test="amountFreeze != null" >
+        amount_freeze = #{amountFreeze,jdbcType=DECIMAL},
+      </if>
+      <if test="amountWithdraw != null" >
+        amount_withdraw = #{amountWithdraw,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where top_agent_id = #{topAgentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabTopAgent" >
+    update tab_top_agent
+    set top_agent_name = #{topAgentName,jdbcType=VARCHAR},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      divide = #{divide,jdbcType=DECIMAL},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      wechat_name = #{wechatName,jdbcType=VARCHAR},
+      headimg = #{headimg,jdbcType=VARCHAR},
+      amount_desirable = #{amountDesirable,jdbcType=DECIMAL},
+      amount_freeze = #{amountFreeze,jdbcType=DECIMAL},
+      amount_withdraw = #{amountWithdraw,jdbcType=DECIMAL}
+    where top_agent_id = #{topAgentId,jdbcType=BIGINT}
+  </update>
+</mapper>

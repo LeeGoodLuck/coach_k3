@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>支付明细</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.min.css">
+    <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/index.js"></script>
+</head>
+<body>
+<div id="contentDiv">
+</div>
+<script>
+    //页面加载完成
+    $(function () {
+        var studentInfo = JSON.parse(localStorage.getItem(STUDENT_KEY));
+        var requestData = {
+            "student_id": studentInfo.student_id,
+            "token": studentInfo.token,
+            "pages_no": 1,
+            "perpage_number": 20
+        };
+        $.ajax({
+            url: baseUrl+"coach_background/student/queryOrderList.do",
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                console.log(JSON.stringify(data));
+                if (data.code == 0) {
+                    var orderList = data.order_list;
+                    var length = orderList.length;
+                    $("#contentDiv").children("ul").remove();
+                    for (var i = 0; i < length; i++) {
+                        var order = orderList[i];
+
+                        var rootDiv = $("<div class='weui-form-preview'>");
+                        $(rootDiv).css('margin',10);
+                        var timeDiv = $("<div class='weui-form-preview__ft'>");
+                        var timeButton = $(" <button class='weui-form-preview__btn weui-form-preview__btn_primary' href='javascript:'>" + order.test_time + "</button>");
+                        $(timeDiv).append(timeButton);
+
+                        var moneyDiv = $("<div class='weui-form-preview__hd'>");
+                        var moneyLabel = $("<label class='weui-form-preview__label'>金额</label>");
+                        var moneyEm = $("<em class='weui-form-preview__value'>¥" + order.test_money + "</em>");
+                        $(moneyDiv).append(moneyLabel);
+                        $(moneyDiv).append(moneyEm);
+
+                        var testDurationDiv = $("<div class='weui-form-preview__hd'>");
+                        var testDurationSubDiv = $("<div class='weui-form-preview__item'>");
+                        var testDurationLabel = $("<label class='weui-form-preview__label'>时长(秒)</label>");
+                        var testDurationSpan = $("<span class='weui-form-preview__value'>" + order.test_duration + "</span>");
+                        $(testDurationDiv).append(testDurationSubDiv);
+                        $(testDurationSubDiv).append(testDurationLabel);
+                        $(testDurationSubDiv).append(testDurationSpan);
+
+                        var plateNumberDiv = $("<div class='weui-form-preview__hd'>");
+                        var plateNumberSubDiv = $("<div class='weui-form-preview__item'>");
+                        var plateNumberLabel = $("<label class='weui-form-preview__label'>车牌</label>");
+                        var plateNumberSpan = $("<span class='weui-form-preview__value'>" + order.plate_number + "</span>");
+                        $(plateNumberDiv).append(plateNumberSubDiv);
+                        $(plateNumberSubDiv).append(plateNumberLabel);
+                        $(plateNumberSubDiv).append(plateNumberSpan);
+
+                        $(rootDiv).append(timeDiv);
+                        $(rootDiv).append(moneyDiv);
+                        $(rootDiv).append(testDurationDiv);
+                        $(rootDiv).append(plateNumberDiv);
+                        $("#contentDiv").append(rootDiv);
+                    }
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (msg) {
+                alert(msg)
+            }
+        });
+    });
+</script>
+</body>
+</html>

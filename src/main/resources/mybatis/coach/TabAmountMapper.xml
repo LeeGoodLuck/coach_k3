@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabAmountMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabAmount" >
+    <id column="amount_id" property="amountId" jdbcType="BIGINT" />
+    <result column="amount_income" property="amountIncome" jdbcType="DECIMAL" />
+    <result column="amount_pay" property="amountPay" jdbcType="DECIMAL" />
+    <result column="amount_balance" property="amountBalance" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    amount_id, amount_income, amount_pay, amount_balance
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_amount
+    where amount_id = #{amountId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_amount
+    where amount_id = #{amountId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabAmount" >
+    insert into tab_amount (amount_id, amount_income, amount_pay, 
+      amount_balance)
+    values (#{amountId,jdbcType=BIGINT}, #{amountIncome,jdbcType=DECIMAL}, #{amountPay,jdbcType=DECIMAL},
+      #{amountBalance,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabAmount" >
+    insert into tab_amount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="amountId != null" >
+        amount_id,
+      </if>
+      <if test="amountIncome != null" >
+        amount_income,
+      </if>
+      <if test="amountPay != null" >
+        amount_pay,
+      </if>
+      <if test="amountBalance != null" >
+        amount_balance,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="amountId != null" >
+        #{amountId,jdbcType=BIGINT},
+      </if>
+      <if test="amountIncome != null" >
+        #{amountIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="amountPay != null" >
+        #{amountPay,jdbcType=DECIMAL},
+      </if>
+      <if test="amountBalance != null" >
+        #{amountBalance,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabAmount" >
+    update tab_amount
+    <set >
+      <if test="amountIncome != null" >
+        amount_income = #{amountIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="amountPay != null" >
+        amount_pay = #{amountPay,jdbcType=DECIMAL},
+      </if>
+      <if test="amountBalance != null" >
+        amount_balance = #{amountBalance,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where amount_id = #{amountId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabAmount" >
+    update tab_amount
+    set amount_income = #{amountIncome,jdbcType=DECIMAL},
+      amount_pay = #{amountPay,jdbcType=DECIMAL},
+      amount_balance = #{amountBalance,jdbcType=DECIMAL}
+    where amount_id = #{amountId,jdbcType=BIGINT}
+  </update>
+</mapper>

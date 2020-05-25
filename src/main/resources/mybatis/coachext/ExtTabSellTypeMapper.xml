@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabSellTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabSellType" >
+    <id column="sell_type_id" property="sellTypeId" jdbcType="INTEGER" />
+    <result column="sell_type_name" property="sellTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sell_type_id, sell_type_name
+  </sql>
+  
+    <select id="findSellTypeList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tab_sell_type
+  </select>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabOrder" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="test_id" property="testId" jdbcType="BIGINT" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="test_duration" property="testDuration" jdbcType="INTEGER" />
+    <result column="coach_id" property="coachId" jdbcType="BIGINT" />
+    <result column="coach_name" property="coachName" jdbcType="VARCHAR" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="test_money" property="testMoney" jdbcType="DECIMAL" />
+    <result column="pay_state" property="payState" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="transaction_id" property="transactionId" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="separate_status" property="separateStatus" jdbcType="INTEGER" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+      <result column="money_give" property="moneyGive" jdbcType="DECIMAL"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, test_id, test_time, test_duration, coach_id, coach_name, plate_number, 
+    student_id, student_name, test_money, pay_state, order_no, transaction_id, pay_time, 
+    separate_status, device_id, money_give
+  </sql>
+  <select id="findUnPayOrderByStudentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_order
+    where student_id = #{_parameter} and pay_state=0
+    and test_id > 0
+    limit 0,1
+  </select>
+  <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_order
+    where order_no = #{_parameter}
+  </select>
+  
+  <select id="queryOrderListCnt" resultType="Integer" parameterType="java.lang.Long" >
+    select 
+    count(*)
+    from tab_order
+    where student_id = #{_parameter} and pay_state=1
+  </select>
+  
+  <select id="queryOrderList" parameterType="Map" resultType="Map">
+	SELECT order_id,test_time,test_duration,plate_number,test_money
+	FROM tab_order
+	where student_id=#{student_id}
+	limit #{startNum},#{limitNum}
+  </select>
+  
+     <select id="count" resultType="int">
+        select count(*) from tab_order
+        <where>
+			<if test="studentName != null and studentName != ''"> 
+				and student_name = #{studentName} 
+			</if>
+		</where>
+    </select>
+  
+  	<select id="list" resultType="com.bootdo.coach.vo.TabOrderVo">
+		select t.*,
+		t1.coach_money as coachMoney,
+		t1.agent_1_money as agent1Money,
+		t1.agent_2_money as agent2Money,
+		t1.agent_3_money as agent3Money,
+		t1.operator_money as operatorMoney
+		from tab_order t
+		left join tab_separate_account t1 on t1.order_id=t.order_id 
+		<where>
+			<if test="studentName != null and studentName != ''"> 
+				and t.student_name = #{studentName} 
+			</if>
+            <if test="coachName != null and coachName != ''">
+                and t.coach_name = #{coachName}
+            </if>
+            <if test="payTimeBig != null and payTimeBig != ''">
+                and t.test_time >= DATE_FORMAT( #{payTimeBig,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="payTimeSmall != null and payTimeSmall != ''">
+                and DATE_FORMAT( #{payTimeSmall,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')> t.test_time
+            </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by t.order_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+</mapper>

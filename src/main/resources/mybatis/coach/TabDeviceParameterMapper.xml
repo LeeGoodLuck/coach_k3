@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabDeviceParameterMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDeviceParameter" >
+    <id column="parameter_id" property="parameterId" jdbcType="BIGINT" />
+    <result column="room" property="room" jdbcType="VARCHAR" />
+    <result column="parameter_type" property="parameterType" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="usable" property="usable" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bootdo.coach.domain.TabDeviceParameter" extends="BaseResultMap" >
+    <result column="parameter" property="parameter" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    parameter_id, room, parameter_type, province, city, usable, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    parameter
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tab_device_parameter
+    where parameter_id = #{parameterId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_device_parameter
+    where parameter_id = #{parameterId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabDeviceParameter" >
+    insert into tab_device_parameter (parameter_id, room, parameter_type, 
+      province, city, usable, 
+      create_time, parameter)
+    values (#{parameterId,jdbcType=BIGINT}, #{room,jdbcType=VARCHAR}, #{parameterType,jdbcType=INTEGER}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{usable,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{parameter,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabDeviceParameter" >
+    insert into tab_device_parameter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parameterId != null" >
+        parameter_id,
+      </if>
+      <if test="room != null" >
+        room,
+      </if>
+      <if test="parameterType != null" >
+        parameter_type,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="usable != null" >
+        usable,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="parameter != null" >
+        parameter,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parameterId != null" >
+        #{parameterId,jdbcType=BIGINT},
+      </if>
+      <if test="room != null" >
+        #{room,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        #{parameterType,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="usable != null" >
+        #{usable,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parameter != null" >
+        #{parameter,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabDeviceParameter" >
+    update tab_device_parameter
+    <set >
+      <if test="room != null" >
+        room = #{room,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        parameter_type = #{parameterType,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="usable != null" >
+        usable = #{usable,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parameter != null" >
+        parameter = #{parameter,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where parameter_id = #{parameterId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bootdo.coach.domain.TabDeviceParameter" >
+    update tab_device_parameter
+    set room = #{room,jdbcType=VARCHAR},
+      parameter_type = #{parameterType,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      usable = #{usable,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      parameter = #{parameter,jdbcType=LONGVARCHAR}
+    where parameter_id = #{parameterId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabDeviceParameter" >
+    update tab_device_parameter
+    set room = #{room,jdbcType=VARCHAR},
+      parameter_type = #{parameterType,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      usable = #{usable,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where parameter_id = #{parameterId,jdbcType=BIGINT}
+  </update>
+</mapper>

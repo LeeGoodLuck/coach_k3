@@ -1,0 +1,57 @@
+server:
+  session-timeout: 1800
+  tomcat:
+    basedir: /home/temp
+    max-http-post-size: -1
+#        max-threads: 1000
+#        min-spare-threads: 30
+#  port: 80
+#    uri-encoding: utf-8
+#security:
+#  basic:
+#    enabled: false
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles: 
+    active: dev #pro
+  servlet:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100Mb
+  devtools:
+    restart:
+      enabled: true
+  cache:
+    type: redis #ehcache
+    ehcache:
+      config: classpath:config/ehcache.xml
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mybatis/**/*Mapper.xml
+  typeAliasesPackage: com.bootdo.**.domain
+#[弃用]配置缓存和session存储方式，默认ehcache,可选redis,[弃用]调整至 spring cache type【shiro.用户，权限，session，spring.cache通用】
+#[弃用]cacheType: ehcache
+
+#运营商的账号配置
+operator:
+  #账号(openid)
+  openid: asdasdasd
+  #姓名
+  name: 张三
+  
+###代理商后台账号登录md5加盐值，不要改变这个值
+##https://www.cmd5.com/
+##选择md5($pass.$salt)
+##例子
+##Pass=123456
+##Salt=1qazxsw2
+##加密后=7cc3796f6d2255000d0a7b7365f4409a
+salt:
+  md5: 1qazxsw2
+

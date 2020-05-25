@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单付款</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.min.css">
+    <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <script type="text/javascript" src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+</head>
+<body>
+
+<div class="weui-form-preview">
+    <div class="weui-form-preview__hd">
+        <label class="weui-form-preview__label">付款金额</label>
+        <em class="weui-form-preview__value" id="test_money">¥00000</em>
+    </div>
+    <div class="weui-form-preview__bd">
+        <div class="weui-form-preview__item">
+            <label class="weui-form-preview__label">商品</label>
+            <span class="weui-form-preview__value">模拟考试</span>
+        </div>
+        <div class="weui-form-preview__item">
+            <label class="weui-form-preview__label">收款方</label>
+            <span class="weui-form-preview__value" id="charge_account">********</span>
+        </div>
+        <div class="weui-form-preview__item">
+            <label class="weui-form-preview__label">订单号</label>
+            <span class="weui-form-preview__value" id="order_no"></span>
+        </div>
+    </div>
+    <div class="weui-form-preview__ft">
+        <button type="submit" class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:"
+                id="immediatelyPay">立即支付
+        </button>
+    </div>
+</div>
+
+</body>
+
+
+<script>
+
+
+    $(function () {
+        var isPay = false;
+
+        //获得用户信息
+        function getUserInfo() {
+            var code = getUrlParam("code");
+            var jsonData = {"code": code};
+            console.log("请求参数 jsonData = " + jsonData);
+            $.ajax({
+                url: wechat_auth_url,
+                type: TYPE_POST,
+                data: jsonData,
+                dataType: DATA_TYPE_JSON,
+                success: function (data) {
+                    console.log("微信授权 返回的数据 == " + JSON.stringify(data));
+                    //学员登陆
+                    studentLogin(data);
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            });
+        }
+
+
+        //学员登陆
+        function studentLogin(userData) {
+            var requestData = {
+                "openid": userData.openid,
+                "unionid": userData.unionid,
+                "wechat_name": userData.wechat_name,
+                "headimg": userData.headimg
+            };
+            console.log("学员登陆请求参数 == " + JSON.stringify(requestData));
+            $.ajax({
+                url: studentLogin_url,
+                type: TYPE_POST,
+                data: requestData,
+                dataType: DATA_TYPE_JSON,
+                success: function (data) {
+                    console.log("学员登陆 返回数据 == " + JSON.stringify(data));
+                    if (data.code == 0) {
+                        window.localStorage.setItem(STUDENT_KEY, JSON.stringify(data));
+                        studentPay(data)
+                    }else{
+                        alert(data.msg);
+                    }
+                },
+                error: function (msg) {
+                    alert("学员登陆 error == " + JSON.stringify(msg));
+                }
+            });
+        }
+
+        function studentPay(studentInfo) {
+            if (studentInfo == null) {
+                $.toast("请先登陆", "forbidden", 2000);
+                return
+            }
+            var requestData = {
+                "student_id": studentInfo.student_id,
+                "token": studentInfo.token,
+            };
+
+            //学员获取未付订单信息接口
+            $.ajax({
+                    url: baseUrl+"coach_background/student/getChargeInfo.do",
+                    type: TYPE_POST,
+                    dataType: DATA_TYPE_JSON,
+                    data: requestData,
+                    success: function (data) {
+                        console.log("获取未付款订单 == " + JSON.stringify(data));
+
+                        if (data.code == -1) {
+                            $("#order_no").text(data.order_no);
+                            $("#charge_account").text(data.charge_account);
+                            $("#test_money").text("¥" + data.test_money);
+                            isPay = true;
+                        }
+                        else {
+                            WeixinJSBridge.call('closeWindow');
+                        }
+                    },
+                    error: function (msg) {
+                        console.log("msg == " + JSON.stringify(msg));
+                        console.log("出现错误 == ");
+                    }
+                }
+            )
+            ;
+
+            $("#immediatelyPay").click(function () {
+                if (isPay) {
+                    //发起支付
+                    pay()
+                } else {
+                    $.toast("请等待页面加载完成", "forbidden", 2000);
+                }
+            });
+
+            /**
+             * 发起支付
+             */
+            function pay() {
+                var requestData = {
+                    "student_id": studentInfo.student_id,
+                    "token": studentInfo.token,
+                    "order_no": $("#order_no").text()
+                };
+                //调用后台付款接口
+                $.ajax({
+                    url: baseUrl+"coach_background/student/h5Pay.do",
+                    type: TYPE_POST,
+                    dataType: DATA_TYPE_JSON,
+                    data: requestData,
+                    success: function (data) {
+                        console.log("调用付款签名返回值 == " + JSON.stringify(data));
+                        if (data.code == 0) {
+                            wx.config({
+                                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                                appId: data.appId, // 必填，公众号的唯一标识
+                                timestamp: data.timeStamp, // 必填，生成签名的时间戳
+                                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                                signature: data.paySign,// 必填，签名
+                                jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
+                            });
+
+                            wx.ready(function () {
+                                wx.chooseWXPay({
+                                    timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                                    nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
+                                    package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                                    signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                                    paySign: data.paySign, // 支付签名
+                                    success: function (res) {
+                                        console.log("支付返回结果 == " + JSON.stringify(res));
+                                        console.log(res);
+                                    },
+                                    error: function (msg) {
+                                        console.log(msg);
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        getUserInfo();
+    });
+
+</script>
+</html>

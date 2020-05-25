@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reLoad()">查询</button>
+                    </div>
+                    <div class="columns pull-left">
+                        <button shiro:hasPermission="coach:order:orderExcel" type="button" class="btn  btn-primary"
+                                id="excel" >
+                            <i class="fa fa-plus hidden" aria-hidden="true"></i>下载Excel表格
+                        </button>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="payTimeBig" type="date" class="form-control">
+                    </div>
+                    <div class="columns pull-right col-md-1">
+                        <label weui-label>大于等于:</label>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="payTimeSmall" type="date" class="form-control"
+                               placeholder="小于这段时间">
+                    </div>
+                    <div class="columns pull-right col-md-1">
+                        <label weui-label>小于:</label>
+                    </div>
+
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="coachName" type="text" class="form-control"
+                               placeholder="请输入要查询教练">
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="searchName" type="text" class="form-control"
+                               placeholder="请输入要查询的名称">
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/coach/order/order.js"></script>
+</body>
+</html>

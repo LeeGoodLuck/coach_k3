@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabSeparateAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabSeparateAccount" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="test_id" property="testId" jdbcType="BIGINT" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="test_duration" property="testDuration" jdbcType="INTEGER" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="coach_id" property="coachId" jdbcType="BIGINT" />
+    <result column="coach_name" property="coachName" jdbcType="VARCHAR" />
+    <result column="test_money" property="testMoney" jdbcType="DECIMAL" />
+    <result column="coach_money" property="coachMoney" jdbcType="DECIMAL" />
+    <result column="coach_separate_status" property="coachSeparateStatus" jdbcType="INTEGER" />
+    <result column="coach_separate_remark" property="coachSeparateRemark" jdbcType="VARCHAR" />
+    <result column="coach_separate_order_no" property="coachSeparateOrderNo" jdbcType="VARCHAR" />
+    <result column="coach_separate_payment_no" property="coachSeparatePaymentNo" jdbcType="VARCHAR" />
+    <result column="agent_1_money" property="agent1Money" jdbcType="DECIMAL" />
+    <result column="agent_1_separate_status" property="agent1SeparateStatus" jdbcType="INTEGER" />
+    <result column="agent_1_separate_remark" property="agent1SeparateRemark" jdbcType="VARCHAR" />
+    <result column="agent_1_separate_order_no" property="agent1SeparateOrderNo" jdbcType="VARCHAR" />
+    <result column="agent_1_separate_payment_no" property="agent1SeparatePaymentNo" jdbcType="VARCHAR" />
+    <result column="agent_2_money" property="agent2Money" jdbcType="DECIMAL" />
+    <result column="agent_2_separate_status" property="agent2SeparateStatus" jdbcType="INTEGER" />
+    <result column="agent_2_separate_remark" property="agent2SeparateRemark" jdbcType="VARCHAR" />
+    <result column="agent_2_separate_order_no" property="agent2SeparateOrderNo" jdbcType="VARCHAR" />
+    <result column="agent_2_separate_payment_no" property="agent2SeparatePaymentNo" jdbcType="VARCHAR" />
+    <result column="agent_3_money" property="agent3Money" jdbcType="DECIMAL" />
+    <result column="agent_3_separate_status" property="agent3SeparateStatus" jdbcType="INTEGER" />
+    <result column="agent_3_separate_remark" property="agent3SeparateRemark" jdbcType="VARCHAR" />
+    <result column="agent_3_separate_order_no" property="agent3SeparateOrderNo" jdbcType="VARCHAR" />
+    <result column="agent_3_separate_payment_no" property="agent3SeparatePaymentNo" jdbcType="VARCHAR" />
+    <result column="operator_money" property="operatorMoney" jdbcType="DECIMAL" />
+    <result column="operator_separate_status" property="operatorSeparateStatus" jdbcType="INTEGER" />
+    <result column="operator_separate_remark" property="operatorSeparateRemark" jdbcType="VARCHAR" />
+    <result column="operator_separate_order_no" property="operatorSeparateOrderNo" jdbcType="VARCHAR" />
+    <result column="operator_separate_payment_no" property="operatorSeparatePaymentNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="agent_1_id" property="agent1Id" jdbcType="BIGINT" />
+    <result column="agent_2_id" property="agent2Id" jdbcType="BIGINT" />
+    <result column="agent_3_id" property="agent3Id" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, test_id, student_id, student_name, test_time, test_duration, plate_number, 
+    coach_id, coach_name, test_money, coach_money, coach_separate_status, coach_separate_remark, 
+    coach_separate_order_no, coach_separate_payment_no, agent_1_money, agent_1_separate_status, 
+    agent_1_separate_remark, agent_1_separate_order_no, agent_1_separate_payment_no, 
+    agent_2_money, agent_2_separate_status, agent_2_separate_remark, agent_2_separate_order_no, 
+    agent_2_separate_payment_no, agent_3_money, agent_3_separate_status, agent_3_separate_remark, 
+    agent_3_separate_order_no, agent_3_separate_payment_no, operator_money, operator_separate_status, 
+    operator_separate_remark, operator_separate_order_no, operator_separate_payment_no, 
+    create_time,agent_1_id,agent_2_id,agent_3_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_separate_account
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_separate_account
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabSeparateAccount" >
+    insert into tab_separate_account (id, order_id, test_id, 
+      student_id, student_name, test_time, 
+      test_duration, plate_number, coach_id, 
+      coach_name, test_money, coach_money, 
+      coach_separate_status, coach_separate_remark, 
+      coach_separate_order_no, coach_separate_payment_no, 
+      agent_1_money, agent_1_separate_status, agent_1_separate_remark, 
+      agent_1_separate_order_no, agent_1_separate_payment_no, 
+      agent_2_money, agent_2_separate_status, agent_2_separate_remark, 
+      agent_2_separate_order_no, agent_2_separate_payment_no, 
+      agent_3_money, agent_3_separate_status, agent_3_separate_remark, 
+      agent_3_separate_order_no, agent_3_separate_payment_no, 
+      operator_money, operator_separate_status, 
+      operator_separate_remark, operator_separate_order_no, 
+      operator_separate_payment_no, create_time,agent_1_id,agent_2_id,agent_3_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{testId,jdbcType=BIGINT}, 
+      #{studentId,jdbcType=BIGINT}, #{studentName,jdbcType=VARCHAR}, #{testTime,jdbcType=TIMESTAMP}, 
+      #{testDuration,jdbcType=INTEGER}, #{plateNumber,jdbcType=VARCHAR}, #{coachId,jdbcType=BIGINT}, 
+      #{coachName,jdbcType=VARCHAR}, #{testMoney,jdbcType=DECIMAL}, #{coachMoney,jdbcType=DECIMAL}, 
+      #{coachSeparateStatus,jdbcType=INTEGER}, #{coachSeparateRemark,jdbcType=VARCHAR}, 
+      #{coachSeparateOrderNo,jdbcType=VARCHAR}, #{coachSeparatePaymentNo,jdbcType=VARCHAR}, 
+      #{agent1Money,jdbcType=DECIMAL}, #{agent1SeparateStatus,jdbcType=INTEGER}, #{agent1SeparateRemark,jdbcType=VARCHAR}, 
+      #{agent1SeparateOrderNo,jdbcType=VARCHAR}, #{agent1SeparatePaymentNo,jdbcType=VARCHAR}, 
+      #{agent2Money,jdbcType=DECIMAL}, #{agent2SeparateStatus,jdbcType=INTEGER}, #{agent2SeparateRemark,jdbcType=VARCHAR}, 
+      #{agent2SeparateOrderNo,jdbcType=VARCHAR}, #{agent2SeparatePaymentNo,jdbcType=VARCHAR}, 
+      #{agent3Money,jdbcType=DECIMAL}, #{agent3SeparateStatus,jdbcType=INTEGER}, #{agent3SeparateRemark,jdbcType=VARCHAR}, 
+      #{agent3SeparateOrderNo,jdbcType=VARCHAR}, #{agent3SeparatePaymentNo,jdbcType=VARCHAR}, 
+      #{operatorMoney,jdbcType=DECIMAL}, #{operatorSeparateStatus,jdbcType=INTEGER}, 
+      #{operatorSeparateRemark,jdbcType=VARCHAR}, #{operatorSeparateOrderNo,jdbcType=VARCHAR}, 
+      #{operatorSeparatePaymentNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{agent1Id,jdbcType=BIGINT},#{agent2Id,jdbcType=BIGINT},#{agent3Id,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabSeparateAccount" >
+    insert into tab_separate_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="testId != null" >
+        test_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="testDuration != null" >
+        test_duration,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="coachName != null" >
+        coach_name,
+      </if>
+      <if test="testMoney != null" >
+        test_money,
+      </if>
+      <if test="coachMoney != null" >
+        coach_money,
+      </if>
+      <if test="coachSeparateStatus != null" >
+        coach_separate_status,
+      </if>
+      <if test="coachSeparateRemark != null" >
+        coach_separate_remark,
+      </if>
+      <if test="coachSeparateOrderNo != null" >
+        coach_separate_order_no,
+      </if>
+      <if test="coachSeparatePaymentNo != null" >
+        coach_separate_payment_no,
+      </if>
+      <if test="agent1Money != null" >
+        agent_1_money,
+      </if>
+      <if test="agent1SeparateStatus != null" >
+        agent_1_separate_status,
+      </if>
+      <if test="agent1SeparateRemark != null" >
+        agent_1_separate_remark,
+      </if>
+      <if test="agent1SeparateOrderNo != null" >
+        agent_1_separate_order_no,
+      </if>
+      <if test="agent1SeparatePaymentNo != null" >
+        agent_1_separate_payment_no,
+      </if>
+      <if test="agent2Money != null" >
+        agent_2_money,
+      </if>
+      <if test="agent2SeparateStatus != null" >
+        agent_2_separate_status,
+      </if>
+      <if test="agent2SeparateRemark != null" >
+        agent_2_separate_remark,
+      </if>
+      <if test="agent2SeparateOrderNo != null" >
+        agent_2_separate_order_no,
+      </if>
+      <if test="agent2SeparatePaymentNo != null" >
+        agent_2_separate_payment_no,
+      </if>
+      <if test="agent3Money != null" >
+        agent_3_money,
+      </if>
+      <if test="agent3SeparateStatus != null" >
+        agent_3_separate_status,
+      </if>
+      <if test="agent3SeparateRemark != null" >
+        agent_3_separate_remark,
+      </if>
+      <if test="agent3SeparateOrderNo != null" >
+        agent_3_separate_order_no,
+      </if>
+      <if test="agent3SeparatePaymentNo != null" >
+        agent_3_separate_payment_no,
+      </if>
+      <if test="operatorMoney != null" >
+        operator_money,
+      </if>
+      <if test="operatorSeparateStatus != null" >
+        operator_separate_status,
+      </if>
+      <if test="operatorSeparateRemark != null" >
+        operator_separate_remark,
+      </if>
+      <if test="operatorSeparateOrderNo != null" >
+        operator_separate_order_no,
+      </if>
+      <if test="operatorSeparatePaymentNo != null" >
+        operator_separate_payment_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="agent1Id != null" >
+        agent_1_id,
+      </if>
+      <if test="agent2Id != null" >
+        agent_2_id,
+      </if>
+      <if test="agent3Id != null" >
+        agent_3_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="coachName != null" >
+        #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="testMoney != null" >
+        #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="coachMoney != null" >
+        #{coachMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="coachSeparateStatus != null" >
+        #{coachSeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="coachSeparateRemark != null" >
+        #{coachSeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="coachSeparateOrderNo != null" >
+        #{coachSeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coachSeparatePaymentNo != null" >
+        #{coachSeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent1Money != null" >
+        #{agent1Money,jdbcType=DECIMAL},
+      </if>
+      <if test="agent1SeparateStatus != null" >
+        #{agent1SeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="agent1SeparateRemark != null" >
+        #{agent1SeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="agent1SeparateOrderNo != null" >
+        #{agent1SeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent1SeparatePaymentNo != null" >
+        #{agent1SeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent2Money != null" >
+        #{agent2Money,jdbcType=DECIMAL},
+      </if>
+      <if test="agent2SeparateStatus != null" >
+        #{agent2SeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="agent2SeparateRemark != null" >
+        #{agent2SeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="agent2SeparateOrderNo != null" >
+        #{agent2SeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent2SeparatePaymentNo != null" >
+        #{agent2SeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent3Money != null" >
+        #{agent3Money,jdbcType=DECIMAL},
+      </if>
+      <if test="agent3SeparateStatus != null" >
+        #{agent3SeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="agent3SeparateRemark != null" >
+        #{agent3SeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="agent3SeparateOrderNo != null" >
+        #{agent3SeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent3SeparatePaymentNo != null" >
+        #{agent3SeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorMoney != null" >
+        #{operatorMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorSeparateStatus != null" >
+        #{operatorSeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="operatorSeparateRemark != null" >
+        #{operatorSeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorSeparateOrderNo != null" >
+        #{operatorSeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorSeparatePaymentNo != null" >
+        #{operatorSeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agent1Id != null" >
+        #{agent1Id,jdbcType=BIGINT},
+      </if>
+      <if test="agent2Id != null" >
+        #{agent2Id,jdbcType=BIGINT},
+      </if>
+      <if test="agent3Id != null" >
+        #{agent3Id,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabSeparateAccount" >
+    update tab_separate_account
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        test_id = #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="testTime != null" >
+        test_time = #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        test_duration = #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="plateNumber != null" >
+        plate_number = #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="coachName != null" >
+        coach_name = #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="testMoney != null" >
+        test_money = #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="coachMoney != null" >
+        coach_money = #{coachMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="coachSeparateStatus != null" >
+        coach_separate_status = #{coachSeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="coachSeparateRemark != null" >
+        coach_separate_remark = #{coachSeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="coachSeparateOrderNo != null" >
+        coach_separate_order_no = #{coachSeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coachSeparatePaymentNo != null" >
+        coach_separate_payment_no = #{coachSeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent1Money != null" >
+        agent_1_money = #{agent1Money,jdbcType=DECIMAL},
+      </if>
+      <if test="agent1SeparateStatus != null" >
+        agent_1_separate_status = #{agent1SeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="agent1SeparateRemark != null" >
+        agent_1_separate_remark = #{agent1SeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="agent1SeparateOrderNo != null" >
+        agent_1_separate_order_no = #{agent1SeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent1SeparatePaymentNo != null" >
+        agent_1_separate_payment_no = #{agent1SeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent2Money != null" >
+        agent_2_money = #{agent2Money,jdbcType=DECIMAL},
+      </if>
+      <if test="agent2SeparateStatus != null" >
+        agent_2_separate_status = #{agent2SeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="agent2SeparateRemark != null" >
+        agent_2_separate_remark = #{agent2SeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="agent2SeparateOrderNo != null" >
+        agent_2_separate_order_no = #{agent2SeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent2SeparatePaymentNo != null" >
+        agent_2_separate_payment_no = #{agent2SeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent3Money != null" >
+        agent_3_money = #{agent3Money,jdbcType=DECIMAL},
+      </if>
+      <if test="agent3SeparateStatus != null" >
+        agent_3_separate_status = #{agent3SeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="agent3SeparateRemark != null" >
+        agent_3_separate_remark = #{agent3SeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="agent3SeparateOrderNo != null" >
+        agent_3_separate_order_no = #{agent3SeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agent3SeparatePaymentNo != null" >
+        agent_3_separate_payment_no = #{agent3SeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorMoney != null" >
+        operator_money = #{operatorMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="operatorSeparateStatus != null" >
+        operator_separate_status = #{operatorSeparateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="operatorSeparateRemark != null" >
+        operator_separate_remark = #{operatorSeparateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorSeparateOrderNo != null" >
+        operator_separate_order_no = #{operatorSeparateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorSeparatePaymentNo != null" >
+        operator_separate_payment_no = #{operatorSeparatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agent1Id != null" >
+        agent_1_id = #{agent1Id,jdbcType=BIGINT},
+      </if>
+      <if test="agent2Id != null" >
+        agent_2_id = #{agent2Id,jdbcType=BIGINT},
+      </if>
+      <if test="agent3Id != null" >
+        agent_3_id = #{agent3Id,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabSeparateAccount" >
+    update tab_separate_account
+    set order_id = #{orderId,jdbcType=BIGINT},
+      test_id = #{testId,jdbcType=BIGINT},
+      student_id = #{studentId,jdbcType=BIGINT},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      test_time = #{testTime,jdbcType=TIMESTAMP},
+      test_duration = #{testDuration,jdbcType=INTEGER},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      coach_name = #{coachName,jdbcType=VARCHAR},
+      test_money = #{testMoney,jdbcType=DECIMAL},
+      coach_money = #{coachMoney,jdbcType=DECIMAL},
+      coach_separate_status = #{coachSeparateStatus,jdbcType=INTEGER},
+      coach_separate_remark = #{coachSeparateRemark,jdbcType=VARCHAR},
+      coach_separate_order_no = #{coachSeparateOrderNo,jdbcType=VARCHAR},
+      coach_separate_payment_no = #{coachSeparatePaymentNo,jdbcType=VARCHAR},
+      agent_1_money = #{agent1Money,jdbcType=DECIMAL},
+      agent_1_separate_status = #{agent1SeparateStatus,jdbcType=INTEGER},
+      agent_1_separate_remark = #{agent1SeparateRemark,jdbcType=VARCHAR},
+      agent_1_separate_order_no = #{agent1SeparateOrderNo,jdbcType=VARCHAR},
+      agent_1_separate_payment_no = #{agent1SeparatePaymentNo,jdbcType=VARCHAR},
+      agent_2_money = #{agent2Money,jdbcType=DECIMAL},
+      agent_2_separate_status = #{agent2SeparateStatus,jdbcType=INTEGER},
+      agent_2_separate_remark = #{agent2SeparateRemark,jdbcType=VARCHAR},
+      agent_2_separate_order_no = #{agent2SeparateOrderNo,jdbcType=VARCHAR},
+      agent_2_separate_payment_no = #{agent2SeparatePaymentNo,jdbcType=VARCHAR},
+      agent_3_money = #{agent3Money,jdbcType=DECIMAL},
+      agent_3_separate_status = #{agent3SeparateStatus,jdbcType=INTEGER},
+      agent_3_separate_remark = #{agent3SeparateRemark,jdbcType=VARCHAR},
+      agent_3_separate_order_no = #{agent3SeparateOrderNo,jdbcType=VARCHAR},
+      agent_3_separate_payment_no = #{agent3SeparatePaymentNo,jdbcType=VARCHAR},
+      operator_money = #{operatorMoney,jdbcType=DECIMAL},
+      operator_separate_status = #{operatorSeparateStatus,jdbcType=INTEGER},
+      operator_separate_remark = #{operatorSeparateRemark,jdbcType=VARCHAR},
+      operator_separate_order_no = #{operatorSeparateOrderNo,jdbcType=VARCHAR},
+      operator_separate_payment_no = #{operatorSeparatePaymentNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      agent_1_id = #{agent1Id,jdbcType=BIGINT},
+      agent_2_id = #{agent2Id,jdbcType=BIGINT},
+      agent_3_id = #{agent3Id,jdbcType=BIGINT}
+      where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

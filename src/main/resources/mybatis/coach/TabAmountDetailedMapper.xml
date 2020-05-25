@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabAmountDetailedMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabAmountDetailed" >
+    <id column="detailed_id" property="detailedId" jdbcType="BIGINT" />
+    <result column="detailed_type" property="detailedType" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="test_id" property="testId" jdbcType="BIGINT" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="test_duration" property="testDuration" jdbcType="INTEGER" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="coach_id" property="coachId" jdbcType="BIGINT" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    detailed_id, detailed_type, amount, order_id, test_id, test_time, test_duration, 
+    plate_number, coach_id, student_id, order_no, pay_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_amount_detailed
+    where detailed_id = #{detailedId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_amount_detailed
+    where detailed_id = #{detailedId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabAmountDetailed" >
+    insert into tab_amount_detailed (detailed_id, detailed_type, amount, 
+      order_id, test_id, test_time, 
+      test_duration, plate_number, coach_id, 
+      student_id, order_no, pay_time
+      )
+    values (#{detailedId,jdbcType=BIGINT}, #{detailedType,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL},
+      #{orderId,jdbcType=BIGINT}, #{testId,jdbcType=BIGINT}, #{testTime,jdbcType=TIMESTAMP}, 
+      #{testDuration,jdbcType=INTEGER}, #{plateNumber,jdbcType=VARCHAR}, #{coachId,jdbcType=BIGINT}, 
+      #{studentId,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabAmountDetailed" >
+    insert into tab_amount_detailed
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="detailedId != null" >
+        detailed_id,
+      </if>
+      <if test="detailedType != null" >
+        detailed_type,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="testId != null" >
+        test_id,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="testDuration != null" >
+        test_duration,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="detailedId != null" >
+        #{detailedId,jdbcType=BIGINT},
+      </if>
+      <if test="detailedType != null" >
+        #{detailedType,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabAmountDetailed" >
+    update tab_amount_detailed
+    <set >
+      <if test="detailedType != null" >
+        detailed_type = #{detailedType,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        test_id = #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        test_time = #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        test_duration = #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="plateNumber != null" >
+        plate_number = #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where detailed_id = #{detailedId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabAmountDetailed" >
+    update tab_amount_detailed
+    set detailed_type = #{detailedType,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      order_id = #{orderId,jdbcType=BIGINT},
+      test_id = #{testId,jdbcType=BIGINT},
+      test_time = #{testTime,jdbcType=TIMESTAMP},
+      test_duration = #{testDuration,jdbcType=INTEGER},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      student_id = #{studentId,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=TIMESTAMP}
+    where detailed_id = #{detailedId,jdbcType=BIGINT}
+  </update>
+</mapper>

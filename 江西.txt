@@ -1,0 +1,53 @@
+阿里云账号：
+2824263769@qq.com
+密码：
+Seqmgn321abc
+47.95.147.208(公) 
+
+微信公众号账号
+2824263769@qq.com
+密码：
+seqmgn321abc
+开发者ID(AppID)：
+wxd4d4b8e876840ca7
+AppSecret：
+1d10502a9bb8a569e4bd1cc63c8cf968
+
+微信支付：
+商户号：
+1550355631
+API密钥：
+baoyilaikejiyouxiangongsi1234567
+
+域名：51used.cn
+
+
+宝塔面板
+Bt-Panel: http://47.95.147.208:8888/bt/login
+username: 同阿里云账号
+password: 同阿里云密码
+
+yum search java|grep jdk
+yum install java-1.8.0-openjdk
+yum install java-devel
+
+
+lower_case_table_names=1
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'aa**123456';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+数据库连接密码 root aa**123456
+
+终端SSH登录 root    seqmgn321abc
+
+科二后台：jiangxibaoyilai.cn/login    初始账号:admin 密码:admin
+科三后台：jiangxibaoyilai.cn:8069/login    初始账号:admin 密码:admin
+科二后台：47.95.147.208/login    初始账号:admin 密码:admin
+科三后台：47.95.147.208:8069/login    初始账号:admin 密码:admin
+
+科二：http://51used.cn/mp/static/html/login_begin.html?type=1
+科三：http://51used.cn/mp/static/html/login_begin.html?type=2
+
+
+
+ada

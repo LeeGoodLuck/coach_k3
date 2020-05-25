@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="../css/weui.min.css" rel="stylesheet">
+    <link href="../css/weuix.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquetyWeui.js"></script>
+    <title>登陆到设备</title>
+</head>
+<body>
+<h4 id="msg" style="padding: auto"></h4>
+<script>
+    $(function () {
+        var userType = getUrlParam("state");
+        var code = getUrlParam("code");
+        //获得用户信息
+        getUserInfo(code, userType);
+    });
+
+    //教练登陆到设备
+    function coachLoginDevice(data) {
+        var device_id = getUrlParam("device_id");
+        var requestData = {
+            "coach_id": data.coach_id,
+            "device_id": device_id,
+            "token": data.token,
+        };
+        $.ajax({
+            url: baseUrl+"coach_background/coach/confirmTest.do",
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                if (data.code == 0) {
+                    $.toast(data.msg, 2000);
+                    $("#msg").text("登陆到设备成功...");
+                    setTimeout(function () {
+                        WeixinJSBridge.call('closeWindow');
+                    },2000);
+                } else {
+                    $.toast(data.msg, "forbidden", 2000);
+                }
+            },
+            error: function (msg) {
+                console.log(JSON.stringify(msg));
+            }
+        });
+    }
+
+    //教练登陆
+    function coachLogin(userData) {
+        var requestData = {
+            "openid": userData.openid,
+            "unionid": userData.unionid,
+            "wechat_name": userData.wechat_name,
+            "headimg": userData.headimg
+        };
+        $.ajax({
+            url: coachLogin_url,
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                if (data.msg === "请绑定教练账号") {
+                    alert(data.msg);
+                    //跳转到账号绑定界面
+                    $(location).attr('href', 'accountBinding.html?openid=' + requestData.openid + "&unionid=" + requestData.unionid + "&wechat_name=" + requestData.wechat_name + "&headimg=" + requestData.headimg + "&userType=" + COACH);
+                }
+                if (data.code === 0) {
+                    window.localStorage.setItem(COACH_KEY, JSON.stringify(data));
+                    //将此用户和设备进行关联
+                    coachLoginDevice(data);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (msg) {
+                alert(JSON.stringify(msg));
+            }
+        });
+    }
+
+    function getUserInfo(code, state) {
+        var jsonData = {"code": code};
+        $.ajax({
+            url: wechat_auth_url,
+            type: TYPE_POST,
+            data: jsonData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                if (state === "1") {
+                    coachLogin(data);
+                } else if (state === "2") {
+                    //学员登陆
+                    studentLogin(data);
+                }
+            },
+            error:function (msg) {
+                console.log(msg);
+            }
+        });
+    }
+
+    /**
+     * 学员登陆到设备
+     * @param data
+     */
+    function studentLoginDevice(data) {
+        var device_id = getUrlParam("device_id");
+        var code = getUrlParam("code");
+        var requestData = {
+            "student_id": data.student_id,
+            "device_id": device_id,
+            "token": data.token,
+        };
+        $.ajax({
+            url: baseUrl+"coach_background/student/confirmTest.do",
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                console.log("学员登陆到设备信息 == " + JSON.stringify(data));
+                if (data.code == 0) {
+                    $.toast(data.msg, 2000);
+                    $("#msg").text("登陆到设备成功...");
+                    setTimeout(function () {
+                        WeixinJSBridge.call('closeWindow');
+                    },2000);
+                } else if (data.code == -3) {
+                    $.modal({
+                        title: "提示",
+                        text: data.msg,
+                        buttons: [
+                            {
+                                text: "取消", className: "default", onClick: function () {}
+                            },
+                            {
+                                text: "微信支付", onClick: function () {
+                                    window.location.href = "scan_pay.html?code="+code;
+                                }
+                            },
+                        ]
+                    });
+                } else {
+                    $.toast(data.msg, "forbidden", 2000);
+                }
+            },
+            error: function (msg) {
+                console.log(JSON.stringify(msg));
+            }
+        });
+    }
+
+    //学员登陆
+    function studentLogin(userData) {
+        var requestData = {
+            "openid": userData.openid,
+            "unionid": userData.unionid,
+            "wechat_name": userData.wechat_name,
+            "headimg": userData.headimg
+        };
+        $.ajax({
+            url: studentLogin_url,
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                if (data.code === 0) {
+                    window.localStorage.setItem(STUDENT_KEY, JSON.stringify(data));
+                    studentLoginDevice(data);
+                }else{
+                    alert(data.msg);
+                }
+            },
+            error: function (msg) {
+                alert(JSON.stringify(msg));
+            }
+        });
+    }
+</script>
+</body>
+</html>

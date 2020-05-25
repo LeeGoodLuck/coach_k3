@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabCoachMapper">
+    <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabCoach">
+        <id column="coach_id" property="coachId" jdbcType="BIGINT"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="coach_name" property="coachName" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="headimg" property="headimg" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="agent_id" property="agentId" jdbcType="BIGINT"/>
+        <result column="divide_type" property="divideType" jdbcType="INTEGER" />
+        <result column="divide" property="divide" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="unionid" property="unionid" jdbcType="VARCHAR"/>
+        <result column="wechat_name" property="wechatName" jdbcType="VARCHAR"/>
+        <result column="amount_desirable" property="amountDesirable" jdbcType="DECIMAL"/>
+        <result column="amount_freeze" property="amountFreeze" jdbcType="DECIMAL"/>
+        <result column="amount_withdraw" property="amountWithdraw" jdbcType="DECIMAL"/>
+        <result column="charge_type" property="chargeType" jdbcType="INTEGER"/>
+        <result column="charge_rate" property="chargeRate" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    coach_id, account, coach_name, sex, headimg, tel, agent_id, divide_type,divide, create_time,
+    last_login_time, last_login_ip, remarks, status, openid, unionid, wechat_name, amount_desirable, 
+    amount_freeze, amount_withdraw, charge_type, charge_rate
+  </sql>
+
+    <update id="addFreezeAndReduceDesirable" parameterType="Map">
+  	update tab_coach set amount_desirable=amount_desirable - #{amount_apply},amount_freeze=amount_freeze + #{amount_apply} where coach_id=#{coach_id}
+  </update>
+
+    <update id="reduceFreezeAndAddAmountWithdraw" parameterType="Map">
+  	update tab_coach set amount_freeze=amount_freeze - #{amount_apply},amount_withdraw=amount_withdraw + #{amount_apply} where coach_id=#{coach_id}
+  </update>
+
+    <update id="reduceFreezeAndAddAmountDesirable" parameterType="Map">
+  	update tab_coach set amount_freeze=amount_freeze - #{amount_apply},amount_desirable=amount_desirable + #{amount_apply} where coach_id=#{coach_id}
+  </update>
+
+    <update id="addAmountDesirable" parameterType="Map">
+  	update tab_coach set amount_desirable=amount_desirable + #{amount_desirable} where coach_id=#{coach_id}
+  </update>
+
+    <select id="findCoachByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tab_coach
+        where openid = #{_parameter}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from tab_coach
+        <where>
+            <if test="coachName != null and coachName != ''">
+                and coach_name like #{coachName}
+            </if>
+            <if test="tel != null and tel != ''">
+                and tel like #{tel}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="coachIdList != null">
+                and coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="list" resultType="com.bootdo.coach.vo.TabCoachVo">
+        select t.*,t1.agent_name as agentName
+        from tab_coach t
+        left join tab_agent t1 on t1.agent_id=t.agent_id
+        <where>
+            <if test="coachName != null and coachName != ''">
+                and coach_name like #{coachName}
+            </if>
+            <if test="tel != null and tel != ''">
+                and t.tel like #{tel}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and t.agent_id = #{agentId}
+            </if>
+            <if test="coachIdList != null">
+                and t.coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by coach_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="listStatistics" resultType="com.bootdo.coach.vo.TabCoachVo">
+        select t.*,t1.agent_name as agentName, sum(t2.coach_money) as incomeAmount
+        from tab_coach t
+        left join tab_agent t1 on t1.agent_id=t.agent_id
+        left join tab_separate_account t2 on t.coach_id = t2.coach_id
+        <where>
+            <if test="coachName != null and coachName != ''">
+                and t.coach_name like #{coachName}
+            </if>
+            <if test="tel != null and tel != ''">
+                and t.tel like #{tel}
+            </if>
+            <if test="starDate != null and starDate != ''">
+                and t2.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and t2.create_time &lt;= DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+        <!--<choose>-->
+        <!--<when test="sort != null and sort.trim() != ''">-->
+        <!--order by ${sort} ${order}-->
+        <!--</when>-->
+        <!--<otherwise>-->
+        <!--order by coach_id desc-->
+        <!--</otherwise>-->
+        <!--</choose>-->
+        group by t.coach_id
+        order by t.coach_id desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="findCoachListByAccount" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tab_coach
+        where account = #{_parameter}
+    </select>
+
+    <select id="findCoachListByTel" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tab_coach
+        where tel = #{tel}
+    </select>
+
+    <!--<select id="getCoachList" resultMap="BaseResultMap">-->
+        <!--select-->
+        <!--<include refid="Base_Column_List"/>-->
+        <!--from tab_coach-->
+        <!--where status = 1-->
+    <!--</select>-->
+
+    <select id="findCoachListByAgentId" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from tab_coach
+        where agent_id = #{_parameter}
+    </select>
+
+    <select id="findCoachList" resultType="Map"
+            parameterType="Map">
+        select
+        coach_id,account,coach_name,tel,divide
+        from tab_coach
+        where status=1
+        <if test="agent_id != null">
+            and agent_id=#{agent_id}
+        </if>
+        <if test="tel != null">
+            and tel=#{tel}
+        </if>
+        <if test="account != null">
+            and account=#{account}
+        </if>
+    </select>
+
+    <update id="updateAgentId" parameterType="Map">
+		update tab_coach SET agent_id=#{higherAgentId} WHERE agent_id=#{agentId} AND status=1
+	</update>
+
+    <select id="findCoachIdList" resultType="Long" parameterType="Map">
+        select coach_id
+        from tab_coach
+        where status=1
+        <if test="agentIdList != null">
+            and agent_id IN
+            <foreach collection="agentIdList" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+    <select id="getCoachList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from tab_coach
+        where status = 1 and agent_id = #{agentId}
+    </select>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabSoftwareVerMapper">
+    <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabSoftwareVer">
+        <id column="ver_id" property="verId" jdbcType="INTEGER"/>
+        <result column="software_ver" property="softwareVer" jdbcType="VARCHAR"/>
+        <result column="ver_describe" property="verDescribe" jdbcType="VARCHAR"/>
+        <result column="file_url" property="fileUrl" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIT"/>
+        <result column="software_type_id" property="softwareTypeId" jdbcType="INTEGER"/>
+        <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+        <result column="ver_code" property="verCode" jdbcType="INTEGER" />
+        <result column="ver_name" property="verName" jdbcType="VARCHAR" />
+        <result column="apk_path" property="apkPath" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    ver_id, software_ver, ver_describe, file_url, status,software_type_id,upload_time,ver_code,ver_name,apk_path
+  </sql>
+
+    <select id="getDevSoftwareVerList" resultType="Map">
+  	select ver_id, software_ver, ver_describe, file_url,software_type_id,upload_time,ver_code,ver_name,apk_path from tab_software_ver where status=1 and software_type_id=1
+  </select>
+
+    <select id="selectBySoftwareVer" parameterType="String" resultType="com.bootdo.coach.domain.TabSoftwareVer">
+        select
+        <include refid="Base_Column_List"/>
+        from tab_software_ver
+        where software_ver=#{_parameter}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from tab_software_ver
+        <where>
+            <if test="softwareVer != null and softwareVer != ''">
+                and software_ver = #{softwareVer}
+            </if>
+        </where>
+    </select>
+
+    <select id="list" parameterType="Map" resultType="com.bootdo.coach.domain.TabSoftwareVer">
+        select
+        <include refid="Base_Column_List"/>
+        from tab_software_ver
+        <where>
+            <if test="softwareVer != null and softwareVer != ''">
+                and software_ver = #{softwareVer}
+            </if>
+        </where>
+        order by ver_id desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+</mapper>

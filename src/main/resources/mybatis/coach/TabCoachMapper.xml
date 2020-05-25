@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabCoachMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabCoach" >
+    <id column="coach_id" property="coachId" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="coach_name" property="coachName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="headimg" property="headimg" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="agent_id" property="agentId" jdbcType="BIGINT" />
+    <result column="divide_type" property="divideType" jdbcType="INTEGER" />
+    <result column="divide" property="divide" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="wechat_name" property="wechatName" jdbcType="VARCHAR" />
+    <result column="amount_desirable" property="amountDesirable" jdbcType="DECIMAL" />
+    <result column="amount_freeze" property="amountFreeze" jdbcType="DECIMAL" />
+    <result column="amount_withdraw" property="amountWithdraw" jdbcType="DECIMAL" />
+    <result column="charge_type" property="chargeType" jdbcType="INTEGER" />
+    <result column="charge_rate" property="chargeRate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    coach_id, account, coach_name, sex, headimg, tel, agent_id, divide_type, divide, create_time,
+    last_login_time, last_login_ip, remarks, status, openid, unionid, wechat_name, amount_desirable, 
+    amount_freeze, amount_withdraw, charge_type, charge_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_coach
+    where coach_id = #{coachId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_coach
+    where coach_id = #{coachId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabCoach" >
+    insert into tab_coach (coach_id, account, coach_name, 
+      sex, headimg, tel, 
+      agent_id, divide, create_time, 
+      last_login_time, last_login_ip, remarks, 
+      status, openid, unionid, 
+      wechat_name, amount_desirable, amount_freeze, 
+      amount_withdraw, charge_type, charge_rate
+      )
+    values (#{coachId,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{coachName,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{headimg,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{agentId,jdbcType=BIGINT}, #{divide,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, 
+      #{wechatName,jdbcType=VARCHAR}, #{amountDesirable,jdbcType=DECIMAL}, #{amountFreeze,jdbcType=DECIMAL}, 
+      #{amountWithdraw,jdbcType=DECIMAL}, #{chargeType,jdbcType=INTEGER}, #{chargeRate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabCoach" >
+    insert into tab_coach
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="coachName != null" >
+        coach_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="headimg != null" >
+        headimg,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="agentId != null" >
+        agent_id,
+      </if>
+      <if test="divideType != null" >
+        divide_type,
+      </if>
+      <if test="divide != null" >
+        divide,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="unionid != null" >
+        unionid,
+      </if>
+      <if test="wechatName != null" >
+        wechat_name,
+      </if>
+      <if test="amountDesirable != null" >
+        amount_desirable,
+      </if>
+      <if test="amountFreeze != null" >
+        amount_freeze,
+      </if>
+      <if test="amountWithdraw != null" >
+        amount_withdraw,
+      </if>
+      <if test="chargeType != null" >
+        charge_type,
+      </if>
+      <if test="chargeRate != null" >
+        charge_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="coachName != null" >
+        #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null" >
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null" >
+        #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="divideType != null" >
+        #{divideType,jdbcType=INTEGER},
+      </if>
+      <if test="divide != null" >
+        #{divide,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="amountDesirable != null" >
+        #{amountDesirable,jdbcType=DECIMAL},
+      </if>
+      <if test="amountFreeze != null" >
+        #{amountFreeze,jdbcType=DECIMAL},
+      </if>
+      <if test="amountWithdraw != null" >
+        #{amountWithdraw,jdbcType=DECIMAL},
+      </if>
+      <if test="chargeType != null" >
+        #{chargeType,jdbcType=INTEGER},
+      </if>
+      <if test="chargeRate != null" >
+        #{chargeRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabCoach" >
+    update tab_coach
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="coachName != null" >
+        coach_name = #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null" >
+        headimg = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null" >
+        agent_id = #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="divideType != null" >
+        divide_type = #{divideType,jdbcType=INTEGER},
+      </if>
+      <if test="divide != null" >
+        divide = #{divide,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        wechat_name = #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="amountDesirable != null" >
+        amount_desirable = #{amountDesirable,jdbcType=DECIMAL},
+      </if>
+      <if test="amountFreeze != null" >
+        amount_freeze = #{amountFreeze,jdbcType=DECIMAL},
+      </if>
+      <if test="amountWithdraw != null" >
+        amount_withdraw = #{amountWithdraw,jdbcType=DECIMAL},
+      </if>
+      <if test="chargeType != null" >
+        charge_type = #{chargeType,jdbcType=INTEGER},
+      </if>
+      <if test="chargeRate != null" >
+        charge_rate = #{chargeRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where coach_id = #{coachId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabCoach" >
+    update tab_coach
+    set account = #{account,jdbcType=VARCHAR},
+      coach_name = #{coachName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      headimg = #{headimg,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      agent_id = #{agentId,jdbcType=BIGINT},
+      divide_type = #{divideType,jdbcType=INTEGER},
+      divide = #{divide,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      wechat_name = #{wechatName,jdbcType=VARCHAR},
+      amount_desirable = #{amountDesirable,jdbcType=DECIMAL},
+      amount_freeze = #{amountFreeze,jdbcType=DECIMAL},
+      amount_withdraw = #{amountWithdraw,jdbcType=DECIMAL},
+      charge_type = #{chargeType,jdbcType=INTEGER},
+      charge_rate = #{chargeRate,jdbcType=DECIMAL}
+    where coach_id = #{coachId,jdbcType=BIGINT}
+  </update>
+</mapper>

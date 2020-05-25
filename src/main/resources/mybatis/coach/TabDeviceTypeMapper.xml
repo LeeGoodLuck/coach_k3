@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabDeviceTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDeviceType" >
+    <id column="device_type_id" property="deviceTypeId" jdbcType="INTEGER" />
+    <result column="device_type_name" property="deviceTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    device_type_id, device_type_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_device_type
+    where device_type_id = #{deviceTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tab_device_type
+    where device_type_id = #{deviceTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabDeviceType" >
+    insert into tab_device_type (device_type_id, device_type_name)
+    values (#{deviceTypeId,jdbcType=INTEGER}, #{deviceTypeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabDeviceType" >
+    insert into tab_device_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceTypeId != null" >
+        device_type_id,
+      </if>
+      <if test="deviceTypeName != null" >
+        device_type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceTypeId != null" >
+        #{deviceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="deviceTypeName != null" >
+        #{deviceTypeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabDeviceType" >
+    update tab_device_type
+    <set >
+      <if test="deviceTypeName != null" >
+        device_type_name = #{deviceTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where device_type_id = #{deviceTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabDeviceType" >
+    update tab_device_type
+    set device_type_name = #{deviceTypeName,jdbcType=VARCHAR}
+    where device_type_id = #{deviceTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

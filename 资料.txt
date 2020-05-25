@@ -1,0 +1,33 @@
+
+# coach_project
+原型：https://h7ptgi.axshare.com/ 
+密码：111111
+
+先去pom文件把插件打开
+修改jdbc.properties里面的驱动jar包路径
+修改generatorConfig.xml里面的targetProject
+dao生成，到项目目录下：mvn mybatis-generator:generate
+
+
+
+代理商：
+一级不能删，只能转；二级，三级或者可以转可以删除，删除后他的下级直接升级；
+1、代理商离职，则把下级代理商都向上升级。这个针对2，3级
+2、如果是最后一级代理商离职，则他下面的教练都转给他的上级。这个针对2，3级
+1、更换则是同级之间更换，在某个代理商离职时，可以把他的下级代理全部转到另一个同级代理商下
+
+
+代理商后台账号登录md5加盐值，不要改变这个值
+在线加密：https://www.cmd5.com/
+选择md5($pass.$salt)
+例子
+Pass=123456
+Salt=1qazxsw2
+加密后=7cc3796f6d2255000d0a7b7365f4409a
+
+
+商户号：1521218591
+商户简称：领航e驾路考仪厂家
+商户全称：深圳市海振兴科技有限公司
+APPID：WX192e0ea49320ff78
+APPID名称：深圳市海振兴科技有限公司

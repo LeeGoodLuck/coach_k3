@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabDeviceMapper">
+    <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDevice">
+        <id column="device_id" property="deviceId" jdbcType="BIGINT"/>
+        <result column="device_no" property="deviceNo" jdbcType="VARCHAR"/>
+        <result column="plate_number" property="plateNumber" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="sell_type_id" property="sellTypeId" jdbcType="INTEGER"/>
+        <result column="coach_id" property="coachId" jdbcType="BIGINT"/>
+        <result column="device_type_id" property="deviceTypeId" jdbcType="INTEGER"/>
+        <result column="sim_card" property="simCard" jdbcType="VARCHAR"/>
+        <result column="charge_type_id" property="chargeTypeId" jdbcType="INTEGER"/>
+        <result column="deposit" property="deposit" jdbcType="DECIMAL"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="test_status" property="testStatus" jdbcType="INTEGER"/>
+        <result column="test_coach_id" property="testCoachId" jdbcType="BIGINT"/>
+        <result column="test_student_id" property="testStudentId" jdbcType="BIGINT"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="free_time" property="freeTime" jdbcType="INTEGER"/>
+        <result column="total_test_time" property="totalTestTime" jdbcType="INTEGER"/>
+        <result column="total_test_income" property="totalTestIncome" jdbcType="DECIMAL"/>
+        <result column="total_test_pay" property="totalTestPay" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    device_id, device_no, plate_number, create_time, sell_type_id, coach_id, device_type_id, 
+    sim_card, charge_type_id, deposit, last_login_time, last_login_ip, status, test_status, 
+    test_coach_id, test_student_id, remarks, free_time, total_test_time, total_test_income, total_test_pay
+  </sql>
+    <select id="selectByDeviceNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tab_device
+        where device_no = #{device_no}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from tab_device
+        <where>
+            <if test="deviceNo != null and deviceNo != ''">
+                and device_no = #{deviceNo}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks like #{remarks}
+            </if>
+            <if test="deviceTypeId != null and deviceTypeId != 0">
+                and device_type_id = #{deviceTypeId}
+            </if>
+            <if test="sellTypeId != null and sellTypeId != 0">
+                and sell_type_id = #{sellTypeId}
+            </if>
+        </where>
+    </select>
+
+    <select id="list" resultType="com.bootdo.coach.vo.TabDeviceVo">
+        select t.*,t1.sell_type_name as sellTypeName,t2.coach_name as coachName,t3.device_type_name as deviceTypeName
+        ,t4.charge_type_name as chargeTypeName
+        from tab_device t
+        left join tab_sell_type t1 on t1.sell_type_id=t.sell_type_id
+        left join tab_coach t2 on t2.coach_id=t.coach_id
+        left join tab_device_type t3 on t3.device_type_id=t.device_type_id
+        left join tab_charge_type t4 on t4.charge_type_id=t.charge_type_id
+        <where>
+            <if test="deviceNo != null and deviceNo != ''">
+                and t.device_no = #{deviceNo}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and t.remarks like #{remarks}
+            </if>
+            <if test="deviceTypeId != null and deviceTypeId != 0">
+                and t.device_type_id = #{deviceTypeId}
+            </if>
+            <if test="sellTypeId != null and sellTypeId != 0">
+                and t.sell_type_id = #{sellTypeId}
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by t.device_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+
+    <select id="countCoachDevice" resultType="int">
+        select count(device_id) from tab_device
+        <where>
+            <if test="coachId != null and coachId != ''">
+                and coach_id = #{coachId}
+            </if>
+        </where>
+    </select>
+    <select id="getSumDeviceRanking"  parameterType="Map" resultType="com.bootdo.coach.domain.TabDevice">
+        SELECT
+        device_id,device_no,device_type_id,last_login_time,SUM(total_test_income) AS totalTestIncome
+        FROM
+        tab_device
+        <where>
+            status=1
+            <if test="typeId ==1">
+                and to_days(last_login_time) = to_days(now())
+            </if>
+            <if test="typeId ==7">
+                and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(last_login_time)
+            </if>
+            <if test="typeId ==30">
+                and DATE_FORMAT( last_login_time,'%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m')
+            </if>
+        </where>
+        GROUP BY device_no
+        ORDER BY totalTestIncome DESC
+        LIMIT 0 ,10
+    </select>
+    <select id="getCoachDevice" resultType="com.bootdo.coach.vo.TabDeviceVo">
+        select t.*,t1.sell_type_name as sellTypeName,t2.coach_name as coachName,t3.device_type_name as deviceTypeName
+        ,t4.charge_type_name as chargeTypeName
+        from tab_device t
+        left join tab_sell_type t1 on t1.sell_type_id=t.sell_type_id
+        left join tab_coach t2 on t2.coach_id=t.coach_id
+        left join tab_device_type t3 on t3.device_type_id=t.device_type_id
+        left join tab_charge_type t4 on t4.charge_type_id=t.charge_type_id
+        <where>
+            <if test="deviceNo != null and deviceNo != ''">
+                and t.device_no = #{deviceNo}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and t.remarks like #{remarks}
+            </if>
+            <if test="deviceTypeId != null and deviceTypeId != 0">
+                and t.device_type_id = #{deviceTypeId}
+            </if>
+            <if test="sellTypeId != null and sellTypeId != 0">
+                and t.sell_type_id = #{sellTypeId}
+            </if>
+            <if test="activationStatus != null">
+                and t.activation_status = #{activationStatus}
+            </if>
+            <if test="coachIdList != null">
+                and t.coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by t.device_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="countsDevice" resultType="int">
+        select count(*) from tab_device
+        <where>
+            <if test="deviceNo != null and deviceNo != ''">
+                and device_no = #{deviceNo}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks like #{remarks}
+            </if>
+            <if test="deviceTypeId != null and deviceTypeId != 0">
+                and device_type_id = #{deviceTypeId}
+            </if>
+            <if test="sellTypeId != null and sellTypeId != 0">
+                and sell_type_id = #{sellTypeId}
+            </if>
+            <if test="activationStatus != null">
+                and activation_status = #{activationStatus}
+            </if>
+            <if test="coachIdList != null">
+                and coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

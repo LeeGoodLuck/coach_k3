@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabChargeRateMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabChargeRate" >
+    <id column="charge_rate_id" property="chargeRateId" jdbcType="INTEGER" />
+    <result column="charge_type_id" property="chargeTypeId" jdbcType="INTEGER" />
+    <result column="charge_rate" property="chargeRate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    charge_rate_id, charge_type_id, charge_rate
+  </sql>
+  <select id="findChargeRateByChargeTypeId" resultType="java.math.BigDecimal" parameterType="java.lang.Integer" >
+    select 
+    charge_rate
+    from tab_charge_rate
+    where charge_type_id = #{_parameter}
+  </select>
+  
+  <select id="count" resultType="int">
+        select count(*) from tab_charge_rate
+    </select>
+  
+  	<select id="list" resultType="com.bootdo.coach.vo.TabChargeRateVo">
+		select cr.*,ct.charge_type_name
+		from tab_charge_rate cr
+		left join tab_charge_type ct on cr.charge_type_id=ct.charge_type_id
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by cr.charge_rate_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+</mapper>

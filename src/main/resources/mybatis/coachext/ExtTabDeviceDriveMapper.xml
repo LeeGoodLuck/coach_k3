@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabDeviceDriveMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDeviceDrive" >
+    <id column="drive_id" property="driveId" jdbcType="BIGINT" />
+    <result column="drive_ver" property="driveVer" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    drive_id, drive_ver, file_url
+  </sql>
+    <select id="getDevDriveInfoList" resultType="Map" >
+    select 
+    *
+    from tab_device_drive
+  </select>
+  
+</mapper>

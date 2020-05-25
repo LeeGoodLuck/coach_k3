@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabTestMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabTest" >
+    <id column="test_id" property="testId" jdbcType="BIGINT" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="test_duration" property="testDuration" jdbcType="INTEGER" />
+    <result column="coach_id" property="coachId" jdbcType="BIGINT" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="test_subjec" property="testSubjec" jdbcType="VARCHAR" />
+    <result column="test_score" property="testScore" jdbcType="DECIMAL" />
+    <result column="test_money" property="testMoney" jdbcType="DECIMAL" />
+    <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="pay_way" property="payWay" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bootdo.coach.domain.TabTest" extends="BaseResultMap" >
+    <result column="test_data" property="testData" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    test_id, student_id, test_time, test_duration, coach_id, plate_number, test_subjec, 
+    test_score, test_money, pay_status, longitude, latitude, device_id, pay_way
+  </sql>
+  <sql id="Blob_Column_List" >
+    test_data
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tab_test
+    where test_id = #{testId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_test
+    where test_id = #{testId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabTest" >
+    insert into tab_test (test_id, student_id, test_time, 
+      test_duration, coach_id, plate_number, 
+      test_subjec, test_score, test_money, 
+      pay_status, test_data, longitude, latitude, device_id, pay_way)
+    values (#{testId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT}, #{testTime,jdbcType=TIMESTAMP}, 
+      #{testDuration,jdbcType=INTEGER}, #{coachId,jdbcType=BIGINT}, #{plateNumber,jdbcType=VARCHAR}, 
+      #{testSubjec,jdbcType=VARCHAR}, #{testScore,jdbcType=DECIMAL}, #{testMoney,jdbcType=DECIMAL}, 
+      #{payStatus,jdbcType=INTEGER}, #{testData,jdbcType=LONGVARCHAR},
+      #{longitude,jdbcType=VARCHAR},#{latitude,jdbcType=VARCHAR},
+      #{deviceId,jdbcType=VARCHAR},#{deviceId,jdbcType=BIGINT},#{payWay,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabTest" >
+    insert into tab_test
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="testId != null" >
+        test_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="testDuration != null" >
+        test_duration,
+      </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="testSubjec != null" >
+        test_subjec,
+      </if>
+      <if test="testScore != null" >
+        test_score,
+      </if>
+      <if test="testMoney != null" >
+        test_money,
+      </if>
+      <if test="payStatus != null" >
+        pay_status,
+      </if>
+      <if test="testData != null" >
+        test_data,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="payWay != null" >
+        pay_way,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="testId != null" >
+        #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="testSubjec != null" >
+        #{testSubjec,jdbcType=VARCHAR},
+      </if>
+      <if test="testScore != null" >
+        #{testScore,jdbcType=DECIMAL},
+      </if>
+      <if test="testMoney != null" >
+        #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="testData != null" >
+        #{testData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="payWay != null" >
+        #{payWay,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabTest" >
+    update tab_test
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        test_time = #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        test_duration = #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="plateNumber != null" >
+        plate_number = #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="testSubjec != null" >
+        test_subjec = #{testSubjec,jdbcType=VARCHAR},
+      </if>
+      <if test="testScore != null" >
+        test_score = #{testScore,jdbcType=DECIMAL},
+      </if>
+      <if test="testMoney != null" >
+        test_money = #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="testData != null" >
+        test_data = #{testData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="payWay != null" >
+        pay_way = #{payWay,jdbcType=INTEGER},
+      </if>
+    </set>
+    where test_id = #{testId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bootdo.coach.domain.TabTest" >
+    update tab_test
+    set student_id = #{studentId,jdbcType=BIGINT},
+      test_time = #{testTime,jdbcType=TIMESTAMP},
+      test_duration = #{testDuration,jdbcType=INTEGER},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      test_subjec = #{testSubjec,jdbcType=VARCHAR},
+      test_score = #{testScore,jdbcType=DECIMAL},
+      test_money = #{testMoney,jdbcType=DECIMAL},
+      pay_status = #{payStatus,jdbcType=INTEGER},
+      test_data = #{testData,jdbcType=LONGVARCHAR}
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      device_id = #{coachId,jdbcType=BIGINT},
+      pay_way = #{payWay,jdbcType=INTEGER},
+    where test_id = #{deviceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabTest" >
+    update tab_test
+    set student_id = #{studentId,jdbcType=BIGINT},
+      test_time = #{testTime,jdbcType=TIMESTAMP},
+      test_duration = #{testDuration,jdbcType=INTEGER},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      test_subjec = #{testSubjec,jdbcType=VARCHAR},
+      test_score = #{testScore,jdbcType=DECIMAL},
+      test_money = #{testMoney,jdbcType=DECIMAL},
+      pay_status = #{payStatus,jdbcType=INTEGER}
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=BIGINT},
+      pay_way = #{payWay,jdbcType=INTEGER},
+    where test_id = #{testId,jdbcType=BIGINT}
+  </update>
+</mapper>

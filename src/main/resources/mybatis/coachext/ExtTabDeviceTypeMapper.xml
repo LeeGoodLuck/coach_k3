@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabDeviceTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDeviceType" >
+    <id column="device_type_id" property="deviceTypeId" jdbcType="INTEGER" />
+    <result column="device_type_name" property="deviceTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    device_type_id, device_type_name
+  </sql>
+  
+  <select id="count" resultType="int">
+        select count(*) from tab_device_type
+        <where>
+			<if test="deviceTypeName != null and deviceTypeName != ''"> 
+				and device_type_name = #{deviceTypeName} 
+			</if>
+		</where>
+    </select>
+  
+  	<select id="list" resultType="com.bootdo.coach.domain.TabDeviceType">
+		select *
+		from tab_device_type
+		<where>
+			<if test="deviceTypeName != null and deviceTypeName != ''"> 
+				and device_type_name = #{deviceTypeName} 
+			</if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by device_type_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+</mapper>

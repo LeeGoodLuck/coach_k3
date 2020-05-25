@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDevice" >
+    <id column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="device_no" property="deviceNo" jdbcType="VARCHAR" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="sell_type_id" property="sellTypeId" jdbcType="INTEGER" />
+    <result column="coach_id" property="coachId" jdbcType="BIGINT" />
+    <result column="device_type_id" property="deviceTypeId" jdbcType="INTEGER" />
+    <result column="sim_card" property="simCard" jdbcType="VARCHAR" />
+    <result column="charge_type_id" property="chargeTypeId" jdbcType="INTEGER" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="test_status" property="testStatus" jdbcType="INTEGER" />
+    <result column="test_coach_id" property="testCoachId" jdbcType="BIGINT" />
+    <result column="test_student_id" property="testStudentId" jdbcType="BIGINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="free_time" property="freeTime" jdbcType="INTEGER" />
+    <result column="total_test_time" property="totalTestTime" jdbcType="INTEGER" />
+    <result column="total_test_income" property="totalTestIncome" jdbcType="DECIMAL" />
+    <result column="total_test_pay" property="totalTestPay" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    device_id, device_no, plate_number, create_time, sell_type_id, coach_id, device_type_id, 
+    sim_card, charge_type_id, deposit, last_login_time, last_login_ip, status, test_status, 
+    test_coach_id, test_student_id, remarks, free_time, total_test_time, total_test_income, total_test_pay
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_device
+    where device_id = #{deviceId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_device
+    where device_id = #{deviceId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabDevice" >
+    insert into tab_device (device_id, device_no, plate_number, 
+      create_time, sell_type_id, coach_id, 
+      device_type_id, sim_card, charge_type_id, 
+      deposit, last_login_time, last_login_ip, 
+      status, test_status, test_coach_id, 
+      test_student_id, remarks, free_time, total_test_time, total_test_income, total_test_pay
+      )
+    values (#{deviceId,jdbcType=BIGINT}, #{deviceNo,jdbcType=VARCHAR}, #{plateNumber,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{sellTypeId,jdbcType=INTEGER}, #{coachId,jdbcType=BIGINT}, 
+      #{deviceTypeId,jdbcType=INTEGER}, #{simCard,jdbcType=VARCHAR}, #{chargeTypeId,jdbcType=INTEGER}, 
+      #{deposit,jdbcType=DECIMAL}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{testStatus,jdbcType=INTEGER}, #{testCoachId,jdbcType=BIGINT}, 
+      #{testStudentId,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, #{freeTime,jdbcType=INTEGER},
+      #{totalTestTime,jdbcType=INTEGER},#{totalTestIncome,jdbcType=DECIMAL},#{totalTestPay,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabDevice" >
+    insert into tab_device
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="deviceNo != null" >
+        device_no,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="sellTypeId != null" >
+        sell_type_id,
+      </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="deviceTypeId != null" >
+        device_type_id,
+      </if>
+      <if test="simCard != null" >
+        sim_card,
+      </if>
+      <if test="chargeTypeId != null" >
+        charge_type_id,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="testStatus != null" >
+        test_status,
+      </if>
+      <if test="testCoachId != null" >
+        test_coach_id,
+      </if>
+      <if test="testStudentId != null" >
+        test_student_id,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="freeTime != null" >
+        free_time,
+      </if>
+      <if test="totalTestTime != null" >
+        total_test_time,
+      </if>
+      <if test="totalTestIncome != null" >
+        total_test_income,
+      </if>
+      <if test="totalTestPay != null" >
+        total_test_pay,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceNo != null" >
+        #{deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sellTypeId != null" >
+        #{sellTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceTypeId != null" >
+        #{deviceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="simCard != null" >
+        #{simCard,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeTypeId != null" >
+        #{chargeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="testStatus != null" >
+        #{testStatus,jdbcType=INTEGER},
+      </if>
+      <if test="testCoachId != null" >
+        #{testCoachId,jdbcType=BIGINT},
+      </if>
+      <if test="testStudentId != null" >
+        #{testStudentId,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="freeTime != null" >
+        #{freeTime,jdbcType=INTEGER},
+      </if>
+      <if test="totalTestTime != null" >
+        #{totalTestTime,jdbcType=INTEGER},
+      </if>
+      <if test="totalTestIncome != null" >
+        #{totalTestIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="totalTestPay != null" >
+        #{totalTestPay,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabDevice" >
+    update tab_device
+    <set >
+      <if test="deviceNo != null" >
+        device_no = #{deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNumber != null" >
+        plate_number = #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sellTypeId != null" >
+        sell_type_id = #{sellTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceTypeId != null" >
+        device_type_id = #{deviceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="simCard != null" >
+        sim_card = #{simCard,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeTypeId != null" >
+        charge_type_id = #{chargeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="testStatus != null" >
+        test_status = #{testStatus,jdbcType=INTEGER},
+      </if>
+      <if test="testCoachId != null" >
+        test_coach_id = #{testCoachId,jdbcType=BIGINT},
+      </if>
+      <if test="testStudentId != null" >
+        test_student_id = #{testStudentId,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="freeTime != null" >
+        free_time = #{freeTime,jdbcType=INTEGER},
+      </if>
+      <if test="totalTestTime != null" >
+        total_test_time = #{totalTestTime,jdbcType=INTEGER},
+      </if>
+      <if test="totalTestIncome != null" >
+        total_test_income = #{totalTestIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="totalTestPay != null" >
+        total_test_pay = #{totalTestPay,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where device_id = #{deviceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabDevice" >
+    update tab_device
+    set device_no = #{deviceNo,jdbcType=VARCHAR},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      sell_type_id = #{sellTypeId,jdbcType=INTEGER},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      device_type_id = #{deviceTypeId,jdbcType=INTEGER},
+      sim_card = #{simCard,jdbcType=VARCHAR},
+      charge_type_id = #{chargeTypeId,jdbcType=INTEGER},
+      deposit = #{deposit,jdbcType=DECIMAL},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      test_status = #{testStatus,jdbcType=INTEGER},
+      test_coach_id = #{testCoachId,jdbcType=BIGINT},
+      test_student_id = #{testStudentId,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      free_time = #{freeTime,jdbcType=INTEGER}
+      total_test_time = #{totalTestTime,jdbcType=INTEGER}
+      total_test_income = #{totalTestIncome,jdbcType=DECIMAL}
+      total_test_pay = #{totalTestPay,jdbcType=DECIMAL}
+    where device_id = #{deviceId,jdbcType=BIGINT}
+  </update>
+</mapper>

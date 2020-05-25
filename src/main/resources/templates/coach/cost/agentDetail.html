@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+
+<!--                    <div class="columns pull-right col-md-2 nopadding">-->
+<!--                        <input id="endTime" type="text" class="form-control"-->
+<!--                               placeholder="请输入结束日期">-->
+<!--                    </div>-->
+<!--                    <div class="columns pull-right col-md-2 nopadding">-->
+<!--                        <input id="startTime" type="text" class="form-control"-->
+<!--                               placeholder="请输入开始日期">-->
+<!--                    </div>-->
+                    <input type="hidden" id="agentId" th:value="${agentId}">
+                    <input type="hidden" id="agentTypeId" th:value="${agentTypeId}">
+                    <input type="hidden" id="startTime" th:value="${startTime}">
+                    <input type="hidden" id="endTime" th:value="${endTime}">
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div>
+    <script type="text/javascript">
+        var s_add_h = 'hidden';
+        var s_edit_h = 'hidden';
+        var s_remove_h = 'hidden';
+
+    </script>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/coach/cost/agentDetail.js"></script>
+</body>
+</html>

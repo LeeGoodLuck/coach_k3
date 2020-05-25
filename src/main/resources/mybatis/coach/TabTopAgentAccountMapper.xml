@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabTopAgentAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabTopAgentAccount" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="top_agent_id" property="topAgentId" jdbcType="BIGINT" />
+    <result column="top_agent_name" property="topAgentName" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="test_id" property="testId" jdbcType="BIGINT" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="test_money" property="testMoney" jdbcType="DECIMAL" />
+    <result column="separate_money" property="separateMoney" jdbcType="DECIMAL" />
+    <result column="separate_status" property="separateStatus" jdbcType="INTEGER" />
+    <result column="separate_remark" property="separateRemark" jdbcType="VARCHAR" />
+    <result column="separate_order_no" property="separateOrderNo" jdbcType="VARCHAR" />
+    <result column="separate_payment_no" property="separatePaymentNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, top_agent_id, top_agent_name, account, order_id, test_id, test_time, plate_number, 
+    test_money, separate_money, separate_status, separate_remark, separate_order_no, 
+    separate_payment_no, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_top_agent_account
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_top_agent_account
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabTopAgentAccount" >
+    insert into tab_top_agent_account (id, top_agent_id, top_agent_name, 
+      account, order_id, test_id, 
+      test_time, plate_number, test_money, 
+      separate_money, separate_status, separate_remark, 
+      separate_order_no, separate_payment_no, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{topAgentId,jdbcType=BIGINT}, #{topAgentName,jdbcType=VARCHAR}, 
+      #{account,jdbcType=VARCHAR}, #{orderId,jdbcType=BIGINT}, #{testId,jdbcType=BIGINT}, 
+      #{testTime,jdbcType=TIMESTAMP}, #{plateNumber,jdbcType=VARCHAR}, #{testMoney,jdbcType=DECIMAL}, 
+      #{separateMoney,jdbcType=DECIMAL}, #{separateStatus,jdbcType=INTEGER}, #{separateRemark,jdbcType=VARCHAR}, 
+      #{separateOrderNo,jdbcType=VARCHAR}, #{separatePaymentNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabTopAgentAccount" >
+    insert into tab_top_agent_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="topAgentId != null" >
+        top_agent_id,
+      </if>
+      <if test="topAgentName != null" >
+        top_agent_name,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="testId != null" >
+        test_id,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="testMoney != null" >
+        test_money,
+      </if>
+      <if test="separateMoney != null" >
+        separate_money,
+      </if>
+      <if test="separateStatus != null" >
+        separate_status,
+      </if>
+      <if test="separateRemark != null" >
+        separate_remark,
+      </if>
+      <if test="separateOrderNo != null" >
+        separate_order_no,
+      </if>
+      <if test="separatePaymentNo != null" >
+        separate_payment_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="topAgentId != null" >
+        #{topAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="topAgentName != null" >
+        #{topAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="testMoney != null" >
+        #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="separateMoney != null" >
+        #{separateMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="separateStatus != null" >
+        #{separateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="separateRemark != null" >
+        #{separateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="separateOrderNo != null" >
+        #{separateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="separatePaymentNo != null" >
+        #{separatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabTopAgentAccount" >
+    update tab_top_agent_account
+    <set >
+      <if test="topAgentId != null" >
+        top_agent_id = #{topAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="topAgentName != null" >
+        top_agent_name = #{topAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        test_id = #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        test_time = #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plateNumber != null" >
+        plate_number = #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="testMoney != null" >
+        test_money = #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="separateMoney != null" >
+        separate_money = #{separateMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="separateStatus != null" >
+        separate_status = #{separateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="separateRemark != null" >
+        separate_remark = #{separateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="separateOrderNo != null" >
+        separate_order_no = #{separateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="separatePaymentNo != null" >
+        separate_payment_no = #{separatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabTopAgentAccount" >
+    update tab_top_agent_account
+    set top_agent_id = #{topAgentId,jdbcType=BIGINT},
+      top_agent_name = #{topAgentName,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=BIGINT},
+      test_id = #{testId,jdbcType=BIGINT},
+      test_time = #{testTime,jdbcType=TIMESTAMP},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      test_money = #{testMoney,jdbcType=DECIMAL},
+      separate_money = #{separateMoney,jdbcType=DECIMAL},
+      separate_status = #{separateStatus,jdbcType=INTEGER},
+      separate_remark = #{separateRemark,jdbcType=VARCHAR},
+      separate_order_no = #{separateOrderNo,jdbcType=VARCHAR},
+      separate_payment_no = #{separatePaymentNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

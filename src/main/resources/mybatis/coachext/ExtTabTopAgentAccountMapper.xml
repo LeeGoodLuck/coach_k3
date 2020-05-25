@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabTopAgentAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabTopAgentAccount" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="top_agent_id" property="topAgentId" jdbcType="BIGINT" />
+    <result column="top_agent_name" property="topAgentName" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="test_id" property="testId" jdbcType="BIGINT" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="test_money" property="testMoney" jdbcType="DECIMAL" />
+    <result column="separate_money" property="separateMoney" jdbcType="DECIMAL" />
+    <result column="separate_status" property="separateStatus" jdbcType="INTEGER" />
+    <result column="separate_remark" property="separateRemark" jdbcType="VARCHAR" />
+    <result column="separate_order_no" property="separateOrderNo" jdbcType="VARCHAR" />
+    <result column="separate_payment_no" property="separatePaymentNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, top_agent_id, top_agent_name, account, order_id, test_id, test_time, plate_number, 
+    test_money, separate_money, separate_status, separate_remark, separate_order_no, 
+    separate_payment_no, create_time
+  </sql>
+  
+  <insert id="insertSelectiveAndReturnId" parameterType="com.bootdo.coach.domain.TabTopAgentAccount" keyProperty="id" useGeneratedKeys="true">
+    insert into tab_top_agent_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="topAgentId != null" >
+        top_agent_id,
+      </if>
+      <if test="topAgentName != null" >
+        top_agent_name,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="testId != null" >
+        test_id,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="testMoney != null" >
+        test_money,
+      </if>
+      <if test="separateMoney != null" >
+        separate_money,
+      </if>
+      <if test="separateStatus != null" >
+        separate_status,
+      </if>
+      <if test="separateRemark != null" >
+        separate_remark,
+      </if>
+      <if test="separateOrderNo != null" >
+        separate_order_no,
+      </if>
+      <if test="separatePaymentNo != null" >
+        separate_payment_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="topAgentId != null" >
+        #{topAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="topAgentName != null" >
+        #{topAgentName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="testMoney != null" >
+        #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="separateMoney != null" >
+        #{separateMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="separateStatus != null" >
+        #{separateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="separateRemark != null" >
+        #{separateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="separateOrderNo != null" >
+        #{separateOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="separatePaymentNo != null" >
+        #{separatePaymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="costList" parameterType="Map" resultType="com.bootdo.coach.vo.TabCostVo">
+    select
+    t.id,t.separate_money as separateMoney,t.test_time as testTime,t.plate_number as plateNumber,o.order_no as orderNo
+    from tab_top_agent_account t
+    left join tab_order o on t.order_id=o.order_id
+    <where>
+      <if test="topAgentId != null and topAgentId != 0">
+        and t.top_agent_id = #{topAgentId}
+      </if>
+      <if test="starDate != null and starDate != ''" >
+        and t.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+      </if>
+      <if test="endDate != null and endDate != ''" >
+        and t.create_time &lt;=  DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+      </if>
+    </where>
+    <choose>
+      <when test="sort != null and sort.trim() != ''">
+        order by ${sort} ${order}
+      </when>
+      <otherwise>
+        order by t.id desc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+</mapper>

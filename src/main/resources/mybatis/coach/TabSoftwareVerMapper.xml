@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabSoftwareVerMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabSoftwareVer" >
+    <id column="ver_id" property="verId" jdbcType="INTEGER" />
+    <result column="software_ver" property="softwareVer" jdbcType="VARCHAR" />
+    <result column="ver_describe" property="verDescribe" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="software_type_id" property="softwareTypeId" jdbcType="INTEGER" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="ver_code" property="verCode" jdbcType="INTEGER" />
+    <result column="ver_name" property="verName" jdbcType="VARCHAR" />
+    <result column="apk_path" property="apkPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ver_id, software_ver, ver_describe, file_url, status, software_type_id, upload_time, 
+    ver_code, ver_name, apk_path
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_software_ver
+    where ver_id = #{verId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tab_software_ver
+    where ver_id = #{verId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabSoftwareVer" >
+    insert into tab_software_ver (ver_id, software_ver, ver_describe, 
+      file_url, status, software_type_id, 
+      upload_time, ver_code, ver_name, 
+      apk_path)
+    values (#{verId,jdbcType=INTEGER}, #{softwareVer,jdbcType=VARCHAR}, #{verDescribe,jdbcType=VARCHAR}, 
+      #{fileUrl,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{softwareTypeId,jdbcType=INTEGER}, 
+      #{uploadTime,jdbcType=TIMESTAMP}, #{verCode,jdbcType=INTEGER}, #{verName,jdbcType=VARCHAR}, 
+      #{apkPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabSoftwareVer" >
+    insert into tab_software_ver
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="verId != null" >
+        ver_id,
+      </if>
+      <if test="softwareVer != null" >
+        software_ver,
+      </if>
+      <if test="verDescribe != null" >
+        ver_describe,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="softwareTypeId != null" >
+        software_type_id,
+      </if>
+      <if test="uploadTime != null" >
+        upload_time,
+      </if>
+      <if test="verCode != null" >
+        ver_code,
+      </if>
+      <if test="verName != null" >
+        ver_name,
+      </if>
+      <if test="apkPath != null" >
+        apk_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="verId != null" >
+        #{verId,jdbcType=INTEGER},
+      </if>
+      <if test="softwareVer != null" >
+        #{softwareVer,jdbcType=VARCHAR},
+      </if>
+      <if test="verDescribe != null" >
+        #{verDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="softwareTypeId != null" >
+        #{softwareTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null" >
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="verCode != null" >
+        #{verCode,jdbcType=INTEGER},
+      </if>
+      <if test="verName != null" >
+        #{verName,jdbcType=VARCHAR},
+      </if>
+      <if test="apkPath != null" >
+        #{apkPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabSoftwareVer" >
+    update tab_software_ver
+    <set >
+      <if test="softwareVer != null" >
+        software_ver = #{softwareVer,jdbcType=VARCHAR},
+      </if>
+      <if test="verDescribe != null" >
+        ver_describe = #{verDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="softwareTypeId != null" >
+        software_type_id = #{softwareTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null" >
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="verCode != null" >
+        ver_code = #{verCode,jdbcType=INTEGER},
+      </if>
+      <if test="verName != null" >
+        ver_name = #{verName,jdbcType=VARCHAR},
+      </if>
+      <if test="apkPath != null" >
+        apk_path = #{apkPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ver_id = #{verId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabSoftwareVer" >
+    update tab_software_ver
+    set software_ver = #{softwareVer,jdbcType=VARCHAR},
+      ver_describe = #{verDescribe,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      software_type_id = #{softwareTypeId,jdbcType=INTEGER},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      ver_code = #{verCode,jdbcType=INTEGER},
+      ver_name = #{verName,jdbcType=VARCHAR},
+      apk_path = #{apkPath,jdbcType=VARCHAR}
+    where ver_id = #{verId,jdbcType=INTEGER}
+  </update>
+</mapper>

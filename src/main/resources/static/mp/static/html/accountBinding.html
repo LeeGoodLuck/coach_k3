@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账号绑定</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <link href="../css/weui.min.css" rel="stylesheet">
+    <link href="../css/weuix.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquetyWeui.js"></script>
+
+    <script type="text/javascript" src="../js/accountBind.js"></script>
+</head>
+<body>
+
+<!--设备标识-->
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" id="accountNumber" placeholder="账号">
+    </div>
+</div>
+
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label" id="identification">用户编号</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" id="userNumber" placeholder="用户编号">
+    </div>
+</div>
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" onclick="bind()">确定</a>
+</div>
+</body>
+<script>
+    $(function () {
+      var userType =  getUrlParam("userType")
+        if (userType == AGENT){
+            $("#identification").val("后台密码");
+            $("#userNumber").attr("placeholder","后台密码")
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,49 @@
+阿里云账号：
+520xiaosijie  
+密码：
+ZHOUxsj19news
+47.107.55.239(公) 
+
+微信公众号账号
+shangjiacanmou@163.com
+密码：
+goulu23zbsjcm
+开发者ID(AppID)：
+wx80cc2fd4014aba97
+AppSecret：
+b718abf90ed5f7fa4e1cd0f775b1d52f
+
+微信支付：
+商户号：
+1513085561  
+API密钥：
+lioking9725211730790400107904001
+
+域名：
+zxyoupin.com
+
+宝塔面板
+Bt-Panel: http://47.107.55.239:8888/bt/login
+username: 同阿里云账号
+password: 同阿里云密码
+
+yum search java|grep jdk
+yum install java-1.8.0-openjdk
+yum install java-devel
+
+lower_case_table_names=1
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'aa**123456';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+数据库连接密码 root aa**123456
+
+终端SSH登录 root    ZHOUxsj19news
+
+科二后台：zxyoupin.com/login    初始账号:admin 密码:admin
+科三后台：zxyoupin.com:8069/login    初始账号:admin 密码:admin
+
+科二：http://zxyoupin.com/mp/static/html/login_begin.html?type=1
+科三：http://zxyoupin.com/mp/static/html/login_begin.html?type=2
+
+
+d

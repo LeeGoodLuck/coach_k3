@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabMapMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabMap" >
+    <id column="map_id" property="mapId" jdbcType="INTEGER" />
+    <result column="room" property="room" jdbcType="VARCHAR" />
+    <result column="vehicle" property="vehicle" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="municipality" property="municipality" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    map_id, room, vehicle, subject, province, municipality, file_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_map
+    where map_id = #{mapId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tab_map
+    where map_id = #{mapId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabMap" >
+    insert into tab_map (map_id, room, vehicle, 
+      subject, province, municipality, 
+      file_url)
+    values (#{mapId,jdbcType=INTEGER}, #{room,jdbcType=VARCHAR}, #{vehicle,jdbcType=VARCHAR}, 
+      #{subject,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{municipality,jdbcType=VARCHAR}, 
+      #{fileUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabMap" >
+    insert into tab_map
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mapId != null" >
+        map_id,
+      </if>
+      <if test="room != null" >
+        room,
+      </if>
+      <if test="vehicle != null" >
+        vehicle,
+      </if>
+      <if test="subject != null" >
+        subject,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="municipality != null" >
+        municipality,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mapId != null" >
+        #{mapId,jdbcType=INTEGER},
+      </if>
+      <if test="room != null" >
+        #{room,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicle != null" >
+        #{vehicle,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="municipality != null" >
+        #{municipality,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabMap" >
+    update tab_map
+    <set >
+      <if test="room != null" >
+        room = #{room,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicle != null" >
+        vehicle = #{vehicle,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="municipality != null" >
+        municipality = #{municipality,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where map_id = #{mapId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabMap" >
+    update tab_map
+    set room = #{room,jdbcType=VARCHAR},
+      vehicle = #{vehicle,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      municipality = #{municipality,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR}
+    where map_id = #{mapId,jdbcType=INTEGER}
+  </update>
+</mapper>

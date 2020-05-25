@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabDeviceParameterMapper" >
+   <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDeviceParameter" >
+    <id column="parameter_id" property="parameterId" jdbcType="BIGINT" />
+    <result column="room" property="room" jdbcType="VARCHAR" />
+    <result column="parameter_type" property="parameterType" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="usable" property="usable" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bootdo.coach.domain.TabDeviceParameter" extends="BaseResultMap" >
+    <result column="parameter" property="parameter" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    parameter_id, room, parameter_type, province, city, usable, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    parameter
+  </sql>
+  <select id="getDevParameterInfoList" parameterType="Map" resultType="Map" >
+    select 
+    *
+    from tab_device_parameter
+    where 1=1
+    <if test="parameterType != null">
+    	and parameter_type=#{parameterType}
+    </if>
+    <if test="room != null">
+    	and room=#{room}
+    </if>
+	  <if test="province != null and province != ''">
+		  and province = #{province}
+	  </if>
+	  <if test="city != null and city != ''">
+		  and city = #{city}
+	  </if>
+  </select>
+  
+    <select id="count" parameterType="Map" resultType="int">
+        select count(*) 
+        from tab_device_parameter
+		where 1=1
+		<if test="room != null and room != ''">
+			and room = #{room}
+		</if>
+		<if test="province != null and province != ''">
+			and province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			and city = #{city}
+		</if>
+    </select>
+  
+  	<select id="list" resultMap="ResultMapWithBLOBs" parameterType="Map">
+	    select 
+	    <include refid="Base_Column_List" />
+	    ,
+	    <include refid="Blob_Column_List" />
+		from tab_device_parameter
+		where 1=1
+		<if test="room != null and room != ''">
+			and room = #{room}
+		</if>
+		<if test="province != null and province != ''">
+			and province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			and city = #{city}
+		</if>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by parameter_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="../css/weui.min.css" rel="stylesheet">
+    <link href="../css/weuix.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquetyWeui.js"></script>
+
+    <title>收入明细</title>
+</head>
+
+<body>
+
+<div class="header-logo">
+    <div class="header-logo-img">
+        <img src="../img/logo.jpg" alt=""/>
+    </div>
+    <div class="header-logo-text"></div>
+</div>
+
+<div id="countDiv">
+    <div class="weui-grids">
+        <a href="" class="weui-grid ">
+            <p class="weui-grid__label">
+                本日收益
+            </p>
+        </a>
+
+        <a href="" class="weui-grid js_grid">
+            <p class="weui-grid__label">
+                本周收益
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <p class="weui-grid__label">
+                本月收益
+            </p>
+        </a>
+        <a href="" class="weui-grid js_grid">
+            <p class="weui-grid__label">
+                总收益
+            </p>
+        </a>
+    </div>
+</div>
+
+<h3>收入记录</h3>
+<div class="weui-grids">
+    <a href="" class="weui-grid ">
+        <p class="weui-grid__label">
+            时间
+        </p>
+    </a>
+
+    <a href="" class="weui-grid js_grid">
+        <p class="weui-grid__label">
+            车牌
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <p class="weui-grid__label">
+            时长
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <p class="weui-grid__label">
+            收益
+        </p>
+    </a>
+</div>
+
+<script>
+    var localStorage = window.localStorage;
+    var pageNumber = 1;
+    var quantity = 20;
+    //收益记录查询
+    function incomeRecord(userData) {
+        var requestData = {
+            "coach_id": userData.coach_id,
+            "token": userData.token,
+        };
+
+        $.ajax({
+            url: coach_income_url,
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                console.log(JSON.stringify(data));
+                if (data.code === 0) {
+                    var income_today = 0;
+                    var income_week = 0;
+                    var income_month = 0;
+                    var income_total = 0;
+                    if (data.income_today !== null) {
+                        income_today = data.income_today;
+                    }
+                    if (data.income_week !== null) {
+                        income_week = data.income_week;
+                    }
+                    if (data.income_month !== null) {
+                        income_month = data.income_month;
+                    }
+                    if (data.income_total !== null) {
+                        income_total = data.income_total;
+                    }
+
+
+                    var s = "<div class='weui-grids'>" +
+                        "<a class='weui-grid'>" +
+                        "<p class='weui-grid__label'>"
+                        + income_today + "" +
+                        "</p>" +
+                        "</a>" +
+                        "<a class='weui-grid'>" +
+                        "<p class='weui-grid__label'>"
+                        + income_week + "" +
+                        "</p>" +
+                        "</a>" + "<a class='weui-grid'>" +
+                        "<p class='weui-grid__label'>"
+                        + income_month + "" +
+                        "</p>" +
+                        "</a>" + "</a>" + "<a class='weui-grid'>" +
+                        "<p class='weui-grid__label'>"
+                        + income_total + "" +
+                        "</p>" +
+                        "</a>" +
+                        "</div>";
+                    $("#countDiv").append(s);
+                }
+            }
+        });
+    }
+
+    $(function () {
+
+        var state = getUrlParam("state");
+        if (state == 1){
+            //教练明细
+            var userData = localStorage.getItem(COACH_KEY);
+            userData = JSON.parse(userData);
+            var requestData = {
+                "coach_id": userData.coach_id,
+                "token": userData.token,
+                "pages_no": pageNumber,
+                "quantity": quantity,
+            };
+
+            //查询收益累计
+            incomeRecord(userData);
+
+            $.ajax({
+                url: coachDetail_url,
+                type: TYPE_POST,
+                data: requestData,
+                dataType: DATA_TYPE_JSON,
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    if (data.code === 0) {
+                        var list = data.income_list;
+                        for (var i = 0; i < list.length; i++) {
+                            var s = "<div class='weui-grids'>" +
+                                "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].test_time + "" +
+                                "</p>" +
+                                "</a>" +
+                                "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].plate_number + "" +
+                                "</p>" +
+                                "</a>" + "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].test_duration + "" +
+                                "</p>" +
+                                "</a>" + "</a>" + "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].coach_money + "" +
+                                "</p>" +
+                                "</a>" +
+                                "</div>";
+                            $("body").append(s)
+                        }
+                    } else {
+                        $.toast("暂无收益", 2000);
+                    }
+                }
+            });
+
+
+        } else{
+            //代理商明细
+            $("#countDiv").remove();
+
+            var agentData = localStorage.getItem(AGENT_KEY);
+            agentData = JSON.parse(agentData);
+
+            console.log(JSON.stringify(agentData));
+
+            var agentRequestData = {
+                "agent_id": agentData.agent_id,
+                "token": agentData.token,
+                "pages_no": pageNumber,
+                "quantity": quantity,
+            };
+
+            console.log(JSON.stringify(agentRequestData));
+
+            $.ajax({
+                url:  baseUrl+"coach_background/agent/queryIncomeList.do",
+                type: TYPE_POST,
+                data: agentRequestData,
+                dataType: DATA_TYPE_JSON,
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    if (data.code === 0) {
+                        var list = data.income_list;
+                        for (var i = 0; i < list.length; i++) {
+                            var s = "<div class='weui-grids'>" +
+                                "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].test_time + "" +
+                                "</p>" +
+                                "</a>" +
+                                "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].plate_number + "" +
+                                "</p>" +
+                                "</a>" + "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].test_duration + "" +
+                                "</p>" +
+                                "</a>" + "</a>" + "<a class='weui-grid'>" +
+                                "<p class='weui-grid__label'>"
+                                + list[i].coach_money + "" +
+                                "</p>" +
+                                "</a>" +
+                                "</div>";
+                            $("body").append(s)
+                        }
+                    } else {
+                        $.toast("暂无收益", 2000);
+                    }
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

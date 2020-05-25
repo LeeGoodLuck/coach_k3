@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提现</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../css/weui.min.css" rel="stylesheet">
+    <link href="../css/weuix.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquetyWeui.js"></script>
+</head>
+<body>
+<div class="weui-cells weui-cells_form">
+
+    <!--设备标识-->
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">可提余额</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="availableBalance" placeholder="可提余额">
+        </div>
+    </div>
+
+    <!--设备标识-->
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">已提余额</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="已提余额" id="balanced">
+        </div>
+    </div>
+
+    <!--设备标识-->
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">本次提现金额</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="amount" placeholder="填写本次提现金额">
+        </div>
+    </div>
+
+
+</div>
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="determineWithdrawal">确定提现</a>
+</div>
+</body>
+<script>
+    $(function () {
+        //页面加载完成
+        var type = getUrlParam("type");
+
+        var requestData = {};
+        if (type == COACH) {
+
+            alert("教练登陆");
+            //教练
+            var coachInfo = localStorage.getItem(COACH_KEY);
+            coachInfo = JSON.parse(coachInfo);
+            requestData = {
+                "coach_id": coachInfo.coach_id,
+                "token": coachInfo.token
+            };
+
+            //发送网络请求
+            $.ajax({
+                url: baseUrl + "coach_background/coach/query_withdraw.do",
+                type: TYPE_POST,
+                data: requestData,
+                dataType: DATA_TYPE_JSON,
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    $("#availableBalance").val(data.amount_desirable)
+                        .attr("disabled", "disabled");
+                    $("#balanced").val(data.amount_withdraw)
+                        .attr("disabled", "disabled");
+                }
+            });
+
+            $("#determineWithdrawal").click(function () {
+                //确定提现
+                var amount = $("#amount").val();
+
+                requestData = {
+                    "coach_id": coachInfo.coach_id,
+                    "token": coachInfo.token,
+                    "amount_apply": amount
+                };
+
+                $.ajax({
+                    url: baseUrl + "coach_background/coach/apply_withdraw.do",
+                    type: TYPE_POST,
+                    data: requestData,
+                    dataType: DATA_TYPE_JSON,
+                    success: function (data) {
+                       if (data.code==0){
+                           $.toast(data.msg,2000)
+                       }else{
+                           $.toast(data.msg, "forbidden", 2000);
+                       }
+                    }
+                });
+            });
+
+        } else if (type == AGENT) {
+            alert("运营商");
+            //运营商
+            var agentInfo = localStorage.getItem(AGENT_KEY);
+            agentInfo = JSON.parse(agentInfo);
+            requestData = {
+                "agent_id": agentInfo.agent_id,
+                "token": agentInfo.token
+            };
+            alert(agentInfo.agent_id);
+            alert(agentInfo.token);
+
+            //发送网络请求
+            $.ajax({
+                url: baseUrl + "coach_background/agent/query_withdraw.do",
+                type: TYPE_POST,
+                data: requestData,
+                dataType: DATA_TYPE_JSON,
+                success: function (data) {
+                    console.log(JSON.stringify(data));
+                    $("#availableBalance").val(data.amount_desirable)
+                        .attr("disabled", "disabled");
+                    $("#balanced").val(data.amount_withdraw)
+                        .attr("disabled", "disabled");
+                }
+            });
+
+            $("#determineWithdrawal").click(function () {
+                //确定提现
+                var amount = $("#amount").val();
+
+                requestData = {
+                    "agent_id": agentInfo.agent_id,
+                    "token": agentInfo.token,
+                    "amount_apply": amount
+                };
+
+                $.ajax({
+                    url: baseUrl + "coach_background/agent/apply_withdraw.do",
+                    type: TYPE_POST,
+                    data: requestData,
+                    dataType: DATA_TYPE_JSON,
+                    success: function (data) {
+                        if (data.code==0){
+                            $.toast(data.msg,2000)
+                        }else{
+                            $.toast(data.msg, "forbidden", 2000);
+                        }
+                    }
+                });
+            });
+        }
+    })
+</script>
+</html>

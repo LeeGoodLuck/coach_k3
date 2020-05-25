@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备激活</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="../css/weui.min.css" rel="stylesheet">
+    <link href="../css/weuix.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquetyWeui.js"></script>
+</head>
+
+
+<body>
+<div class="weui-cells weui-cells_form">
+
+    <!--设备标识-->
+    <div class="weui-cell" id="device_div">
+        <div class="weui-cell__hd"><label class="weui-label">设备标识</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="设备标识" id="device_id">
+        </div>
+    </div>
+
+    <!--销售人-->
+    <div class="weui-cell" id="agent_div">
+        <div class="weui-cell__hd"><label class="weui-label">销售人id</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="销售人id" id="agent_id">
+        </div>
+    </div>
+
+    <!--车牌号-->
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">车牌号</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" placeholder="车牌号" id="car_number">
+        </div>
+    </div>
+
+    <!--销售类型-->
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd">
+            <label class="weui-label">销售类型</label>
+        </div>
+        <div class="weui-cell__bd">
+            <!--onchange="changeSelect(this.value)"-->
+            <select class="weui-select" name="select2" id="sell_type" onchange="changeSelect(this.value)">
+                <option value="1">扫码设备</option>
+                <option value="2">买断设备</option>
+                <option value="3">租赁设备</option>
+                <option value="4">预付费设备</option>
+            </select>
+        </div>
+    </div>
+
+
+    <!--所属教练-->
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd">
+            <label class="weui-label">所属教练</label>
+        </div>
+        <div class="weui-cell__bd">
+            <select class="weui-select" name="select2" id="ownCoach">
+            </select>
+        </div>
+    </div>
+
+
+    <!--设备类型-->
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd">
+            <label class="weui-label">设备类型</label>
+        </div>
+        <div class="weui-cell__bd">
+            <select class="weui-select" name="select2" id="device_type">
+                <option value="3">科三低精度</option>
+                <option value="1">科二高精度</option>
+            </select>
+        </div>
+    </div>
+
+
+    <!--SIM卡号-->
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">车主电话</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" pattern="[0-9]" placeholder="车主电话" id="sim_card_number" type="number">
+        </div>
+    </div>
+
+    <!--收费模式-->
+    <div class="weui-cell weui-cell_select weui-cell_select-after" id="feeModelDiv">
+        <div class="weui-cell__hd">
+            <label class="weui-label">收费模式</label>
+        </div>
+        <div class="weui-cell__bd">
+            <select class="weui-select" name="select2" id="fee_model">
+                <option value="1" >按小时</option>
+                <option value="2" selected="selected">按次数</option>
+            </select>
+        </div>
+    </div>
+
+    <!--押金-->
+    <div class="weui-cell" id="depositDiv">
+        <div class="weui-cell__hd"><label class="weui-label">押金</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" pattern="[0-9]" placeholder="押金" type="number" id="deposit">
+        </div>
+    </div>
+
+
+    <!--押金-->
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">所属区域</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" pattern="[0-9]" placeholder="所属区域" id="remark" value="个人">
+        </div>
+    </div>
+
+</div>
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="deviceRegistration">确定</a>
+</div>
+
+<script>
+    function changeSelect(value) {
+        if (value == 2) {
+            //买断模式
+            $("#feeModelDiv").hide();
+            $("#depositDiv").hide();
+        } else {
+            //扫码模式
+            $("#feeModelDiv").show();
+            $("#depositDiv").show();
+        }
+    }
+
+
+    var device_no = getUrlParam("device_no");
+    $("#device_id").attr("value", device_no);
+    $("#device_id").attr("disabled", "disabled");
+    $("#device_div").css("background-color", "#f0f0f0");
+    $(function () {
+        var code = getUrlParam("code");
+        var state = getUrlParam("state");
+        //代理商登陆
+        getUserInfo(code, state)
+    });
+
+    //获得用户信息
+    function getUserInfo(code, state) {
+        var jsonData = {"code": code};
+        $.ajax({
+            url: wechat_auth_url,
+            type: TYPE_POST,
+            data: jsonData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                if (state == 3) {
+                    carrierLogin(data);
+                }
+            }
+        });
+    }
+
+    //获得用户下所有的教练
+    function getAllCoach(data) {
+        var requestData = {
+            "agent_id": data.agent_id,
+            "token": data.token,
+        };
+        $.ajax({
+            url: coachFind_url,
+            type: TYPE_POST,
+            dataType: DATA_TYPE_JSON,
+            data: requestData,
+            success: function (data) {
+                if (data.code == 0) {
+                    var length = data.coach_list.length;
+                    var appendContent = "";
+                    for (var i = 0; i < length; i++) {
+                        appendContent += "<option value=" + data.coach_list[i].coach_id + ">" + data.coach_list[i].coach_name + "</option>"
+                    }
+                    $("#ownCoach").append(appendContent);
+                }
+            }
+        });
+    }
+
+    //运营商登陆
+    function carrierLogin(userData) {
+        var requestData = {
+            "openid": userData.openid,
+            "unionid": userData.unionid,
+            "wechat_name": userData.wechat_name,
+            "headimg": userData.headimg
+        };
+        $.ajax({
+            url: agentLogin_url,
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                console.log(JSON.stringify(data));
+                if (data.msg === "还未绑定账号") {
+                    alert(data.msg);
+                    //跳转到账号绑定界面
+                    $(location).attr('href', 'html/accountBinding.html?openid=' + requestData.openid + "&unionid=" + requestData.unionid + "&wechat_name=" + requestData.wechat_name + "&headimg=" + requestData.headimg + "&userType=" + AGENT);
+                }
+
+                if (data.code === 0) {
+                    window.localStorage.setItem(AGENT_KEY, JSON.stringify(data));
+                    //将代理商id显示在界面上
+                    $("#agent_id").attr("value", data.agent_id);
+                    $("#agent_id").attr("disabled", "disabled");
+                    $("#agent_div").css("background-color", "#f0f0f0");
+                    //获得用户下所有的教练
+                    getAllCoach(data);
+                }
+            },
+            error: function (msg) {
+                alert(JSON.stringify(msg));
+            }
+        });
+    }
+
+
+    //设备注册
+    $("#deviceRegistration").click(function () {
+        var device_id = $("#device_id").val();
+        var agent_id = $("#agent_id").val();
+        var car_number = $("#car_number").val();
+        var sell_type = $("#sell_type").val();
+        //所属教练
+        var ownCoach = $("#ownCoach").val();
+        var device_type = $("#device_type").val();
+        var sim_card_number = $("#sim_card_number").val();
+        var fee_model = $("#fee_model").val();
+        //押金
+        var deposit = $("#deposit").val();
+
+        var remark = $("#remark").val();
+
+        var localString = window.localStorage.getItem(AGENT_KEY);
+        var localJSON = JSON.parse(localString);
+        var parameter = {
+            "agent_id": agent_id,
+            "token": localJSON.token,
+            "device_no": device_id,
+            "plate_number": car_number,
+            "sell_type_id": sell_type,
+            "coach_id": ownCoach,
+            "device_type_id": device_type,
+            "sim_card": sim_card_number,
+            "charge_type_id": fee_model,
+            "deposit": deposit,
+            "remarks": remark
+        };
+
+        if (parameter.sell_type_id == 2) {
+            parameter.charge_type_id = 1;
+            parameter.deposit = 0;
+        }
+
+        console.log(JSON.stringify(parameter));
+
+        deviceActivation(parameter)
+    });
+
+    /**
+     * 设备激活
+     * @param parameter
+     */
+    function deviceActivation(parameter) {
+        $.ajax({
+            url: deviceActivation_url,
+            type: TYPE_POST,
+            data: parameter,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                if (data.code == 0) {
+                    $.toast(data.msg, 2000)
+                } else {
+                    $.toast(data.msg, "forbidden", 2000)
+                }
+            },
+            error: function (msg) {
+                alert(JSON.stringify(msg));
+            }
+        });
+    }
+</script>
+</body>
+</html>

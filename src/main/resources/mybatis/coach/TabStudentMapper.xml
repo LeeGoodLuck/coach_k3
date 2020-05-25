@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabStudentMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabStudent" >
+    <id column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="headimg" property="headimg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="wechat_name" property="wechatName" jdbcType="VARCHAR" />
+    <result column="amount_balance" property="amountBalance" jdbcType="DECIMAL" />
+    <result column="amount_give" property="amountGive" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    student_id, account, student_name, sex, headimg, create_time, last_login_time, last_login_ip, 
+    remarks, status, openid, unionid, wechat_name, amount_balance, amount_give
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_student
+    where student_id = #{studentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_student
+    where student_id = #{studentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabStudent" >
+    insert into tab_student (student_id, account, student_name, 
+      sex, headimg, create_time, 
+      last_login_time, last_login_ip, remarks, 
+      status, openid, unionid, 
+      wechat_name, amount_balance, amount_give)
+    values (#{studentId,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{headimg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, 
+      #{wechatName,jdbcType=VARCHAR},  #{amountBalance,jdbcType=DECIMAL}, #{amountGive,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabStudent" >
+    insert into tab_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="headimg != null" >
+        headimg,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="unionid != null" >
+        unionid,
+      </if>
+      <if test="wechatName != null" >
+        wechat_name,
+      </if>
+      <if test="amountBalance != null" >
+        amount_balance,
+      </if>
+      <if test="amountGive != null" >
+        amount_give,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null" >
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="amountBalance != null" >
+        #{amountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="amountGive != null" >
+        #{amountGive,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabStudent" >
+    update tab_student
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null" >
+        headimg = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        wechat_name = #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="amountBalance != null" >
+        amount_balance = #{amountBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="amountGive != null" >
+        amount_give = #{amountGive,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where student_id = #{studentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabStudent" >
+    update tab_student
+    set account = #{account,jdbcType=VARCHAR},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      headimg = #{headimg,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      wechat_name = #{wechatName,jdbcType=VARCHAR},
+      amount_balance = #{amountBalance,jdbcType=DECIMAL},
+      amount_give = #{amountGive,jdbcType=DECIMAL}
+    where student_id = #{studentId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabOrder" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="test_id" property="testId" jdbcType="BIGINT" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="test_duration" property="testDuration" jdbcType="INTEGER" />
+    <result column="coach_id" property="coachId" jdbcType="BIGINT" />
+    <result column="coach_name" property="coachName" jdbcType="VARCHAR" />
+    <result column="plate_number" property="plateNumber" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="test_money" property="testMoney" jdbcType="DECIMAL" />
+    <result column="pay_state" property="payState" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="transaction_id" property="transactionId" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="separate_status" property="separateStatus" jdbcType="INTEGER" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="money_give" property="moneyGive" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, test_id, test_time, test_duration, coach_id, coach_name, plate_number, 
+    student_id, student_name, test_money, pay_state, order_no, transaction_id, pay_time, 
+    separate_status,device_id, money_give
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_order
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_order
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabOrder" >
+    insert into tab_order (order_id, test_id, test_time, 
+      test_duration, coach_id, coach_name, 
+      plate_number, student_id, student_name, 
+      test_money, pay_state, order_no, 
+      transaction_id, pay_time, separate_status,device_id, money_give
+      )
+    values (#{orderId,jdbcType=BIGINT}, #{testId,jdbcType=BIGINT}, #{testTime,jdbcType=TIMESTAMP}, 
+      #{testDuration,jdbcType=INTEGER}, #{coachId,jdbcType=BIGINT}, #{coachName,jdbcType=VARCHAR}, 
+      #{plateNumber,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT}, #{studentName,jdbcType=VARCHAR}, 
+      #{testMoney,jdbcType=DECIMAL}, #{payState,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, 
+      #{transactionId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{separateStatus,jdbcType=INTEGER},
+      #{deviceId,jdbcType=BIGINT}, #{moneyGive,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabOrder" >
+    insert into tab_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="testId != null" >
+        test_id,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="testDuration != null" >
+        test_duration,
+      </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="coachName != null" >
+        coach_name,
+      </if>
+      <if test="plateNumber != null" >
+        plate_number,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+      <if test="testMoney != null" >
+        test_money,
+      </if>
+      <if test="payState != null" >
+        pay_state,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="transactionId != null" >
+        transaction_id,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="separateStatus != null" >
+        separate_status,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="moneyGive != null" >
+        money_give,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="testId != null" >
+        #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="coachName != null" >
+        #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNumber != null" >
+        #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="testMoney != null" >
+        #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payState != null" >
+        #{payState,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null" >
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="separateStatus != null" >
+        #{separateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="moneyGive != null" >
+        #{moneyGive,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabOrder" >
+    update tab_order
+    <set >
+      <if test="testId != null" >
+        test_id = #{testId,jdbcType=BIGINT},
+      </if>
+      <if test="testTime != null" >
+        test_time = #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testDuration != null" >
+        test_duration = #{testDuration,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="coachName != null" >
+        coach_name = #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNumber != null" >
+        plate_number = #{plateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="testMoney != null" >
+        test_money = #{testMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payState != null" >
+        pay_state = #{payState,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null" >
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="separateStatus != null" >
+        separate_status = #{separateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="moneyGive != null" >
+        money_give = #{moneyGive,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabOrder" >
+    update tab_order
+    set test_id = #{testId,jdbcType=BIGINT},
+      test_time = #{testTime,jdbcType=TIMESTAMP},
+      test_duration = #{testDuration,jdbcType=INTEGER},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      coach_name = #{coachName,jdbcType=VARCHAR},
+      plate_number = #{plateNumber,jdbcType=VARCHAR},
+      student_id = #{studentId,jdbcType=BIGINT},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      test_money = #{testMoney,jdbcType=DECIMAL},
+      pay_state = #{payState,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      separate_status = #{separateStatus,jdbcType=INTEGER},
+      device_id = #{deviceId,jdbcType=BIGINT},
+       money_give = #{moneyGive,jdbcType=DECIMAL}
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabMapMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabMap" >
+    <id column="map_id" property="mapId" jdbcType="INTEGER" />
+    <result column="room" property="room" jdbcType="VARCHAR" />
+    <result column="vehicle" property="vehicle" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="municipality" property="municipality" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    map_id, room, vehicle, subject, province, municipality, file_url
+  </sql>
+  <select id="getMapInfoList" resultType="Map">
+    select 
+    <include refid="Base_Column_List" />
+    from tab_map
+  </select>
+    <select id="count" resultType="int">
+        select count(*) from tab_map
+        <where>
+			<if test="room != null and room != ''"> 
+				and room = #{room} 
+			</if>
+		</where>
+    </select>
+  
+  	<select id="list" resultType="com.bootdo.coach.domain.TabMap">
+		select *
+		from tab_map
+		<where>
+			<if test="room != null and room != ''"> 
+				and room = #{room} 
+			</if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by map_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+</mapper>

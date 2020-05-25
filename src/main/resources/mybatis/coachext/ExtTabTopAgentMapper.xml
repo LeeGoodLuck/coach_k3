@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabTopAgentMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabTopAgent" >
+    <id column="top_agent_id" property="topAgentId" jdbcType="BIGINT" />
+    <result column="top_agent_name" property="topAgentName" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="divide" property="divide" jdbcType="DECIMAL" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="wechat_name" property="wechatName" jdbcType="VARCHAR" />
+    <result column="headimg" property="headimg" jdbcType="VARCHAR" />
+    <result column="amount_desirable" property="amountDesirable" jdbcType="DECIMAL" />
+    <result column="amount_freeze" property="amountFreeze" jdbcType="DECIMAL" />
+    <result column="amount_withdraw" property="amountWithdraw" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    top_agent_id, top_agent_name, contacts, tel, account, divide, remarks, status, openid, 
+    unionid, wechat_name, headimg, amount_desirable, amount_freeze, amount_withdraw
+  </sql>
+  
+    <update id="addFreezeAndReduceDesirable" parameterType="Map">
+  	update tab_top_agent set amount_desirable=amount_desirable - #{amount_apply},amount_freeze=amount_freeze + #{amount_apply} where top_agent_id=#{top_agent_id}
+  </update>
+  
+    <update id="reduceFreezeAndAddAmountWithdraw" parameterType="Map">
+  	update tab_top_agent set amount_freeze=amount_freeze - #{amount_apply},amount_withdraw=amount_withdraw + #{amount_apply} where top_agent_id=#{top_agent_id}
+  </update>
+  
+    <update id="reduceFreezeAndAddAmountDesirable" parameterType="Map">
+  	update tab_top_agent set amount_freeze=amount_freeze - #{amount_apply},amount_desirable=amount_desirable + #{amount_apply} where top_agent_id=#{top_agent_id}
+  </update>
+  
+  <update id="addAmountDesirable" parameterType="Map">
+  	update tab_top_agent set amount_desirable=amount_desirable + #{amount_desirable} where top_agent_id=#{top_agent_id}
+  </update>
+  
+  <select id="findAllTopAgentList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tab_top_agent
+    where status=1
+  </select>
+  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_top_agent
+    where openid = #{_parameter}
+  </select>
+  <select id="findTopAgentByAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_top_agent
+    where account = #{_parameter}
+  </select>
+  
+      <select id="count" resultType="int">
+        select count(*) from tab_top_agent
+        <where>
+			<if test="topAgentName != null and topAgentName != ''"> 
+				and top_agent_name = #{topAgentName} 
+			</if>
+		</where>
+    </select>
+  
+  	<select id="list" resultType="com.bootdo.coach.domain.TabTopAgent">
+		select top_agent_id, top_agent_name, contacts, tel, account, divide, remarks, status
+		from tab_top_agent
+		<where>
+			<if test="topAgentName != null and topAgentName != ''"> 
+				and top_agent_name = #{topAgentName} 
+			</if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by top_agent_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+    <select id="listStatistics" resultType="com.bootdo.coach.vo.TabTopAgentVo">
+        select a.top_agent_id as topAgentId, a.top_agent_name as topAgentName, a.contacts as contacts, a.tel as tel,
+        a.account as account, a.divide as divide, a.remarks as remarks, a.status as status, a.amount_desirable as amountDesirable,
+        sum(t.separate_money) as incomeAmount
+        from tab_top_agent a
+        left join tab_top_agent_account t on a.top_agent_id = t.top_agent_id
+        <where>
+            <if test="topAgentName != null and topAgentName != ''">
+                and a.top_agent_name = #{topAgentName}
+            </if>
+            <if test="starDate != null and starDate != ''" >
+                and t.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''" >
+                and t.create_time &lt;=  DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+        group by a.top_agent_id
+        order by a.top_agent_id desc
+        <!--<choose>-->
+        <!--<when test="sort != null and sort.trim() != ''">-->
+        <!--order by ${sort} ${order}-->
+        <!--</when>-->
+        <!--<otherwise>-->
+        <!--order by a.top_agent_id desc-->
+        <!--</otherwise>-->
+        <!--</choose>-->
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+</mapper>

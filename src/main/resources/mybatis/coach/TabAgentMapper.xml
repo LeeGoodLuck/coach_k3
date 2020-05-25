@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabAgentMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabAgent" >
+    <id column="agent_id" property="agentId" jdbcType="BIGINT" />
+    <result column="agent_name" property="agentName" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bg_account" property="bgAccount" jdbcType="VARCHAR" />
+    <result column="bg_password" property="bgPassword" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="higher_agent_id" property="higherAgentId" jdbcType="BIGINT" />
+    <result column="divide" property="divide" jdbcType="DECIMAL" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="wechat_name" property="wechatName" jdbcType="VARCHAR" />
+    <result column="headimg" property="headimg" jdbcType="VARCHAR" />
+    <result column="amount_desirable" property="amountDesirable" jdbcType="DECIMAL" />
+    <result column="amount_freeze" property="amountFreeze" jdbcType="DECIMAL" />
+    <result column="amount_withdraw" property="amountWithdraw" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    agent_id, agent_name, contacts, tel, account, bg_account, bg_password, level, higher_agent_id, 
+    divide, remarks, status, is_delete, openid, unionid, wechat_name, headimg, amount_desirable, 
+    amount_freeze, amount_withdraw
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_agent
+    where agent_id = #{agentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_agent
+    where agent_id = #{agentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabAgent" >
+    insert into tab_agent (agent_id, agent_name, contacts, 
+      tel, account, bg_account, 
+      bg_password, level, higher_agent_id, 
+      divide, remarks, status, 
+      is_delete, openid, unionid, 
+      wechat_name, headimg, amount_desirable, 
+      amount_freeze, amount_withdraw)
+    values (#{agentId,jdbcType=BIGINT}, #{agentName,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{bgAccount,jdbcType=VARCHAR}, 
+      #{bgPassword,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{higherAgentId,jdbcType=BIGINT}, 
+      #{divide,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, 
+      #{wechatName,jdbcType=VARCHAR}, #{headimg,jdbcType=VARCHAR}, #{amountDesirable,jdbcType=DECIMAL}, 
+      #{amountFreeze,jdbcType=DECIMAL}, #{amountWithdraw,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabAgent" >
+    insert into tab_agent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        agent_id,
+      </if>
+      <if test="agentName != null" >
+        agent_name,
+      </if>
+      <if test="contacts != null" >
+        contacts,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="bgAccount != null" >
+        bg_account,
+      </if>
+      <if test="bgPassword != null" >
+        bg_password,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="higherAgentId != null" >
+        higher_agent_id,
+      </if>
+      <if test="divide != null" >
+        divide,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="unionid != null" >
+        unionid,
+      </if>
+      <if test="wechatName != null" >
+        wechat_name,
+      </if>
+      <if test="headimg != null" >
+        headimg,
+      </if>
+      <if test="amountDesirable != null" >
+        amount_desirable,
+      </if>
+      <if test="amountFreeze != null" >
+        amount_freeze,
+      </if>
+      <if test="amountWithdraw != null" >
+        amount_withdraw,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="agentName != null" >
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bgAccount != null" >
+        #{bgAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bgPassword != null" >
+        #{bgPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="higherAgentId != null" >
+        #{higherAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="divide != null" >
+        #{divide,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null" >
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="amountDesirable != null" >
+        #{amountDesirable,jdbcType=DECIMAL},
+      </if>
+      <if test="amountFreeze != null" >
+        #{amountFreeze,jdbcType=DECIMAL},
+      </if>
+      <if test="amountWithdraw != null" >
+        #{amountWithdraw,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabAgent" >
+    update tab_agent
+    <set >
+      <if test="agentName != null" >
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bgAccount != null" >
+        bg_account = #{bgAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bgPassword != null" >
+        bg_password = #{bgPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="higherAgentId != null" >
+        higher_agent_id = #{higherAgentId,jdbcType=BIGINT},
+      </if>
+      <if test="divide != null" >
+        divide = #{divide,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatName != null" >
+        wechat_name = #{wechatName,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null" >
+        headimg = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="amountDesirable != null" >
+        amount_desirable = #{amountDesirable,jdbcType=DECIMAL},
+      </if>
+      <if test="amountFreeze != null" >
+        amount_freeze = #{amountFreeze,jdbcType=DECIMAL},
+      </if>
+      <if test="amountWithdraw != null" >
+        amount_withdraw = #{amountWithdraw,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where agent_id = #{agentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabAgent" >
+    update tab_agent
+    set agent_name = #{agentName,jdbcType=VARCHAR},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      bg_account = #{bgAccount,jdbcType=VARCHAR},
+      bg_password = #{bgPassword,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      higher_agent_id = #{higherAgentId,jdbcType=BIGINT},
+      divide = #{divide,jdbcType=DECIMAL},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      wechat_name = #{wechatName,jdbcType=VARCHAR},
+      headimg = #{headimg,jdbcType=VARCHAR},
+      amount_desirable = #{amountDesirable,jdbcType=DECIMAL},
+      amount_freeze = #{amountFreeze,jdbcType=DECIMAL},
+      amount_withdraw = #{amountWithdraw,jdbcType=DECIMAL}
+    where agent_id = #{agentId,jdbcType=BIGINT}
+  </update>
+</mapper>

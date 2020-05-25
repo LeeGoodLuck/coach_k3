@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.ext.ExtTabSeparateAccountMapper">
+    <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabSeparateAccount">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="test_id" property="testId" jdbcType="BIGINT"/>
+        <result column="student_id" property="studentId" jdbcType="BIGINT"/>
+        <result column="student_name" property="studentName" jdbcType="VARCHAR"/>
+        <result column="test_time" property="testTime" jdbcType="TIMESTAMP"/>
+        <result column="test_duration" property="testDuration" jdbcType="INTEGER"/>
+        <result column="plate_number" property="plateNumber" jdbcType="VARCHAR"/>
+        <result column="coach_id" property="coachId" jdbcType="BIGINT"/>
+        <result column="coach_name" property="coachName" jdbcType="VARCHAR"/>
+        <result column="test_money" property="testMoney" jdbcType="DECIMAL"/>
+        <result column="coach_money" property="coachMoney" jdbcType="DECIMAL"/>
+        <result column="coach_separate_status" property="coachSeparateStatus" jdbcType="INTEGER"/>
+        <result column="coach_separate_remark" property="coachSeparateRemark" jdbcType="VARCHAR"/>
+        <result column="coach_separate_order_no" property="coachSeparateOrderNo" jdbcType="VARCHAR"/>
+        <result column="coach_separate_payment_no" property="coachSeparatePaymentNo" jdbcType="VARCHAR"/>
+        <result column="agent_1_money" property="agent1Money" jdbcType="DECIMAL"/>
+        <result column="agent_1_separate_status" property="agent1SeparateStatus" jdbcType="INTEGER"/>
+        <result column="agent_1_separate_remark" property="agent1SeparateRemark" jdbcType="VARCHAR"/>
+        <result column="agent_1_separate_order_no" property="agent1SeparateOrderNo" jdbcType="VARCHAR"/>
+        <result column="agent_1_separate_payment_no" property="agent1SeparatePaymentNo" jdbcType="VARCHAR"/>
+        <result column="agent_2_money" property="agent2Money" jdbcType="DECIMAL"/>
+        <result column="agent_2_separate_status" property="agent2SeparateStatus" jdbcType="INTEGER"/>
+        <result column="agent_2_separate_remark" property="agent2SeparateRemark" jdbcType="VARCHAR"/>
+        <result column="agent_2_separate_order_no" property="agent2SeparateOrderNo" jdbcType="VARCHAR"/>
+        <result column="agent_2_separate_payment_no" property="agent2SeparatePaymentNo" jdbcType="VARCHAR"/>
+        <result column="agent_3_money" property="agent3Money" jdbcType="DECIMAL"/>
+        <result column="agent_3_separate_status" property="agent3SeparateStatus" jdbcType="INTEGER"/>
+        <result column="agent_3_separate_remark" property="agent3SeparateRemark" jdbcType="VARCHAR"/>
+        <result column="agent_3_separate_order_no" property="agent3SeparateOrderNo" jdbcType="VARCHAR"/>
+        <result column="agent_3_separate_payment_no" property="agent3SeparatePaymentNo" jdbcType="VARCHAR"/>
+        <result column="operator_money" property="operatorMoney" jdbcType="DECIMAL"/>
+        <result column="operator_separate_status" property="operatorSeparateStatus" jdbcType="INTEGER"/>
+        <result column="operator_separate_remark" property="operatorSeparateRemark" jdbcType="VARCHAR"/>
+        <result column="operator_separate_order_no" property="operatorSeparateOrderNo" jdbcType="VARCHAR"/>
+        <result column="operator_separate_payment_no" property="operatorSeparatePaymentNo" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="agent_1_id" property="agent1Id" jdbcType="BIGINT"/>
+        <result column="agent_2_id" property="agent2Id" jdbcType="BIGINT"/>
+        <result column="agent_3_id" property="agent3Id" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, order_id, test_id, student_id, student_name, test_time, test_duration, plate_number, 
+    coach_id, coach_name, test_money, coach_money, coach_separate_status, coach_separate_remark, 
+    coach_separate_order_no, coach_separate_payment_no, agent_1_money, agent_1_separate_status, 
+    agent_1_separate_remark, agent_1_separate_order_no, agent_1_separate_payment_no, 
+    agent_2_money, agent_2_separate_status, agent_2_separate_remark, agent_2_separate_order_no, 
+    agent_2_separate_payment_no, agent_3_money, agent_3_separate_status, agent_3_separate_remark, 
+    agent_3_separate_order_no, agent_3_separate_payment_no, operator_money, operator_separate_status, 
+    operator_separate_remark, operator_separate_order_no, operator_separate_payment_no, 
+    create_time,agent_1_id,agent_2_id,agent_3_id
+  </sql>
+
+    <insert id="insertSelectiveAndReturnId" parameterType="com.bootdo.coach.domain.TabSeparateAccount" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into tab_separate_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="testId != null">
+                test_id,
+            </if>
+            <if test="studentId != null">
+                student_id,
+            </if>
+            <if test="studentName != null">
+                student_name,
+            </if>
+            <if test="testTime != null">
+                test_time,
+            </if>
+            <if test="testDuration != null">
+                test_duration,
+            </if>
+            <if test="plateNumber != null">
+                plate_number,
+            </if>
+            <if test="coachId != null">
+                coach_id,
+            </if>
+            <if test="coachName != null">
+                coach_name,
+            </if>
+            <if test="testMoney != null">
+                test_money,
+            </if>
+            <if test="coachMoney != null">
+                coach_money,
+            </if>
+            <if test="coachSeparateStatus != null">
+                coach_separate_status,
+            </if>
+            <if test="coachSeparateRemark != null">
+                coach_separate_remark,
+            </if>
+            <if test="coachSeparateOrderNo != null">
+                coach_separate_order_no,
+            </if>
+            <if test="coachSeparatePaymentNo != null">
+                coach_separate_payment_no,
+            </if>
+            <if test="agent1Money != null">
+                agent_1_money,
+            </if>
+            <if test="agent1SeparateStatus != null">
+                agent_1_separate_status,
+            </if>
+            <if test="agent1SeparateRemark != null">
+                agent_1_separate_remark,
+            </if>
+            <if test="agent1SeparateOrderNo != null">
+                agent_1_separate_order_no,
+            </if>
+            <if test="agent1SeparatePaymentNo != null">
+                agent_1_separate_payment_no,
+            </if>
+            <if test="agent2Money != null">
+                agent_2_money,
+            </if>
+            <if test="agent2SeparateStatus != null">
+                agent_2_separate_status,
+            </if>
+            <if test="agent2SeparateRemark != null">
+                agent_2_separate_remark,
+            </if>
+            <if test="agent2SeparateOrderNo != null">
+                agent_2_separate_order_no,
+            </if>
+            <if test="agent2SeparatePaymentNo != null">
+                agent_2_separate_payment_no,
+            </if>
+            <if test="agent3Money != null">
+                agent_3_money,
+            </if>
+            <if test="agent3SeparateStatus != null">
+                agent_3_separate_status,
+            </if>
+            <if test="agent3SeparateRemark != null">
+                agent_3_separate_remark,
+            </if>
+            <if test="agent3SeparateOrderNo != null">
+                agent_3_separate_order_no,
+            </if>
+            <if test="agent3SeparatePaymentNo != null">
+                agent_3_separate_payment_no,
+            </if>
+            <if test="operatorMoney != null">
+                operator_money,
+            </if>
+            <if test="operatorSeparateStatus != null">
+                operator_separate_status,
+            </if>
+            <if test="operatorSeparateRemark != null">
+                operator_separate_remark,
+            </if>
+            <if test="operatorSeparateOrderNo != null">
+                operator_separate_order_no,
+            </if>
+            <if test="operatorSeparatePaymentNo != null">
+                operator_separate_payment_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="agent1Id != null">
+                agent_1_id,
+            </if>
+            <if test="agent2Id != null">
+                agent_2_id,
+            </if>
+            <if test="agent3Id != null">
+                agent_3_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="testId != null">
+                #{testId,jdbcType=BIGINT},
+            </if>
+            <if test="studentId != null">
+                #{studentId,jdbcType=BIGINT},
+            </if>
+            <if test="studentName != null">
+                #{studentName,jdbcType=VARCHAR},
+            </if>
+            <if test="testTime != null">
+                #{testTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="testDuration != null">
+                #{testDuration,jdbcType=INTEGER},
+            </if>
+            <if test="plateNumber != null">
+                #{plateNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="coachId != null">
+                #{coachId,jdbcType=BIGINT},
+            </if>
+            <if test="coachName != null">
+                #{coachName,jdbcType=VARCHAR},
+            </if>
+            <if test="testMoney != null">
+                #{testMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="coachMoney != null">
+                #{coachMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="coachSeparateStatus != null">
+                #{coachSeparateStatus,jdbcType=INTEGER},
+            </if>
+            <if test="coachSeparateRemark != null">
+                #{coachSeparateRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="coachSeparateOrderNo != null">
+                #{coachSeparateOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="coachSeparatePaymentNo != null">
+                #{coachSeparatePaymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agent1Money != null">
+                #{agent1Money,jdbcType=DECIMAL},
+            </if>
+            <if test="agent1SeparateStatus != null">
+                #{agent1SeparateStatus,jdbcType=INTEGER},
+            </if>
+            <if test="agent1SeparateRemark != null">
+                #{agent1SeparateRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="agent1SeparateOrderNo != null">
+                #{agent1SeparateOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agent1SeparatePaymentNo != null">
+                #{agent1SeparatePaymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agent2Money != null">
+                #{agent2Money,jdbcType=DECIMAL},
+            </if>
+            <if test="agent2SeparateStatus != null">
+                #{agent2SeparateStatus,jdbcType=INTEGER},
+            </if>
+            <if test="agent2SeparateRemark != null">
+                #{agent2SeparateRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="agent2SeparateOrderNo != null">
+                #{agent2SeparateOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agent2SeparatePaymentNo != null">
+                #{agent2SeparatePaymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agent3Money != null">
+                #{agent3Money,jdbcType=DECIMAL},
+            </if>
+            <if test="agent3SeparateStatus != null">
+                #{agent3SeparateStatus,jdbcType=INTEGER},
+            </if>
+            <if test="agent3SeparateRemark != null">
+                #{agent3SeparateRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="agent3SeparateOrderNo != null">
+                #{agent3SeparateOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agent3SeparatePaymentNo != null">
+                #{agent3SeparatePaymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorMoney != null">
+                #{operatorMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="operatorSeparateStatus != null">
+                #{operatorSeparateStatus,jdbcType=INTEGER},
+            </if>
+            <if test="operatorSeparateRemark != null">
+                #{operatorSeparateRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorSeparateOrderNo != null">
+                #{operatorSeparateOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorSeparatePaymentNo != null">
+                #{operatorSeparatePaymentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="agent1Id != null">
+                #{agent1Id,jdbcType=BIGINT},
+            </if>
+            <if test="agent2Id != null">
+                #{agent2Id,jdbcType=BIGINT},
+            </if>
+            <if test="agent3Id != null">
+                #{agent3Id,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findCoachMoney" parameterType="Map" resultType="java.math.BigDecimal">
+        SELECT SUM(coach_money) FROM tab_separate_account
+        where coach_separate_status=1
+        <if test="coach_id != null">
+            and coach_id=#{coach_id}
+        </if>
+        <if test="create_time != null">
+            and create_time >= #{create_time}
+        </if>
+    </select>
+
+    <select id="findCoachMoneyCnt" parameterType="Long" resultType="Integer">
+  		SELECT count(*) FROM tab_separate_account where coach_id=#{_parameter} and coach_separate_status=1
+  </select>
+
+    <select id="getCoachIncomeList" parameterType="Map" resultType="Map">
+  		SELECT test_time,plate_number,test_duration,coach_money FROM tab_separate_account
+  		where coach_id=#{coach_id}
+  		order by id desc
+  		limit #{startNum},#{limitNum}
+  </select>
+
+    <select id="count" resultType="int">
+        select count(*) from tab_separate_account
+        <where>
+            <if test="coachIdList != null">
+                and coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="starDate != null and starDate != ''">
+                and create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and create_time &lt;= DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+    </select>
+
+    <select id="getAgentTotalMoney" parameterType="Map" resultType="com.bootdo.coach.vo.TabSeparateAccountVo">
+        select
+        t.agent_1_money,t.agent_2_money,t.agent_3_money,t2.level
+        from tab_separate_account t
+        left join tab_coach t1 on t.coach_id=t1.coach_id
+        left join tab_agent t2 on t2.agent_id=t1.agent_id
+        <where>
+            <if test="coachIdList != null">
+                and t.coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="list" parameterType="Map" resultType="com.bootdo.coach.vo.TabSeparateAccountVo">
+        select
+        t.*,t2.agent_name as agentName,t2.agent_id as agentId,t2.level
+        from tab_separate_account t
+        left join tab_coach t1 on t.coach_id=t1.coach_id
+        left join tab_agent t2 on t2.agent_id=t1.agent_id
+        <where>
+            <if test="coachIdList != null">
+                and t.coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="starDate != null and starDate != ''">
+                and t.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and t.create_time &lt;= DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by t.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="findAgentMoneyCnt" parameterType="Long" resultType="Integer">
+    SELECT count(*) FROM tab_separate_account where (agent_1_id=#{_parameter} or agent_2_id=#{_parameter} or agent_3_id=#{_parameter})and coach_separate_status=1
+  </select>
+
+    <select id="getAgentIncomeList" parameterType="Map" resultType="Map">
+    SELECT test_time,plate_number,test_duration,case when agent_1_id=#{agent_id} then agent_1_money when agent_2_id=#{agent_id} then agent_2_money when agent_3_id=#{agent_id} then agent_3_money end as agent_money  FROM tab_separate_account
+    where (agent_1_id=#{agent_id} or agent_2_id=#{agent_id} or agent_3_id=#{agent_id}) and coach_separate_status=1
+    order by id desc
+      limit #{startNum},#{limitNum}
+  </select>
+
+    <select id="costCoachList" parameterType="Map" resultType="com.bootdo.coach.vo.TabCostVo">
+        select
+        t.id,t.test_money as testMoney,t.coach_money as separateMoney,t.test_time as testTime,t.plate_number as
+        plateNumber,o.order_no as orderNo
+        from tab_separate_account t
+        left join tab_order o on t.order_id=o.order_id
+        <where>
+            <if test="coachId != null and coachId != 0">
+                and t.coach_id = #{coachId}
+            </if>
+            <if test="coachName != null and coachName != ''">
+                and t.coach_name = #{coachName}
+            </if>
+            <if test="starDate != null and starDate != ''">
+                and t.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and t.create_time &lt;= DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by t.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="costAgent1List" parameterType="Map" resultType="com.bootdo.coach.vo.TabCostVo">
+        select
+        t.id,t.test_money as testMoney,t.agent_1_money as separateMoney,t.test_time as testTime,t.plate_number as
+        plateNumber,o.order_no as orderNo
+        from tab_separate_account t
+        left join tab_order o on t.order_id=o.order_id
+        <where>
+            <if test="agent1Id != null and agent1Id != 0">
+                and t.agent_1_id = #{agent1Id}
+            </if>
+            <if test="agent1Id == 0">
+                and t.agent_1_id != 0
+            </if>
+            <if test="starDate != null and starDate != ''">
+                and t.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and t.create_time &lt;= DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by t.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="costAgent2List" parameterType="Map" resultType="com.bootdo.coach.vo.TabCostVo">
+        select
+        t.id,t.test_money as testMoney,t.agent_2_money as separateMoney,t.test_time as testTime,t.plate_number as
+        plateNumber,o.order_no as orderNo
+        from tab_separate_account t
+        left join tab_order o on t.order_id=o.order_id
+        <where>
+            <if test="agent2Id != null and agent2Id != 0">
+                and t.agent_2_id = #{agent2Id}
+            </if>
+            <if test="agent2Id == 0">
+                and t.agent_2_id != 0
+            </if>
+            <if test="starDate != null and starDate != ''">
+                and t.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and t.create_time &lt;= DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by t.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="costAgent3List" parameterType="Map" resultType="com.bootdo.coach.vo.TabCostVo">
+        select
+        t.id,t.test_money as testMoney,t.agent_3_money as separateMoney,t.test_time as testTime,t.plate_number as
+        plateNumber,o.order_no as orderNo
+        from tab_separate_account t
+        left join tab_order o on t.order_id=o.order_id
+        <where>
+            <if test="agent3Id != null and agent3Id != 0">
+                and t.agent_3_id = #{agent3Id}
+            </if>
+            <if test="agent3Id == 0">
+                and t.agent_3_id != 0
+            </if>
+            <if test="starDate != null and starDate != ''">
+                and t.create_time &gt;=DATE_FORMAT( #{starDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and t.create_time &lt;= DATE_FORMAT( #{endDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%m:%s')
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by t.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="getstudentIncomeList" parameterType="Map" resultType="Map">
+  		SELECT a.test_time,s.student_name,a.test_money,a.coach_money FROM tab_separate_account a
+  		left join tab_student s
+  		on a.student_id = s.student_id
+  		where coach_id=#{coach_id}
+  		order by id desc
+  		limit #{startNum},#{limitNum}
+  </select>
+    <select id="getDayRevenue" resultType="BigDecimal">
+        SELECT
+        SUM(coach_money) AS dayRevenue
+        FROM
+        tab_separate_account
+        <where>
+            coach_id = #{coach_id} and coach_separate_status=1 and to_days(test_time) = to_days(now())
+        </where>
+    </select>
+
+    <select id="getSevenRevenue" resultType="BigDecimal">
+        SELECT
+        SUM(coach_money) AS sevenRevenue
+        FROM
+        tab_separate_account
+        <where>
+            coach_id = #{coach_id}
+            and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(test_time)
+        </where>
+    </select>
+
+    <select id="getMonthRevenue" resultType="BigDecimal">
+        SELECT
+        SUM(coach_money) AS monthRevenue
+        FROM
+        tab_separate_account
+        <where>
+            coach_id = #{coach_id}
+            and coach_separate_status=1 and DATE_FORMAT( test_time,'%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m')
+        </where>
+    </select>
+
+    <select id="getTotalRevenue" resultType="BigDecimal">
+        SELECT
+        SUM(coach_money) AS totalRevenue
+        FROM
+        tab_separate_account
+        <where>
+            coach_id = #{coach_id} and coach_separate_status=1
+
+        </where>
+    </select>
+
+    <select id="getMonthRevenues" parameterType="Map" resultType="com.bootdo.coach.vo.TabSeparateAccountVo">
+        select
+        t.agent_1_money,t.agent_2_money,t.agent_3_money,t2.level
+        from tab_separate_account t
+        left join tab_coach t1 on t.coach_id=t1.coach_id
+        left join tab_agent t2 on t2.agent_id=t1.agent_id
+        <where>
+            <if test="coachIdList != null">
+                and t.coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+                and coach_separate_status=1 and DATE_FORMAT( test_time,'%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m')
+            </if>
+        </where>
+    </select>
+    <select id="getSevenRevenues" parameterType="Map" resultType="com.bootdo.coach.vo.TabSeparateAccountVo">
+        select
+        t.agent_1_money,t.agent_2_money,t.agent_3_money,t2.level
+        from tab_separate_account t
+        left join tab_coach t1 on t.coach_id=t1.coach_id
+        left join tab_agent t2 on t2.agent_id=t1.agent_id
+        <where>
+            <if test="coachIdList != null">
+                and t.coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+                and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(test_time)
+            </if>
+        </where>
+    </select>
+    <select id="getDayRevenues" parameterType="Map" resultType="com.bootdo.coach.vo.TabSeparateAccountVo">
+        select
+        t.agent_1_money,t.agent_2_money,t.agent_3_money,t2.level
+        from tab_separate_account t
+        left join tab_coach t1 on t.coach_id=t1.coach_id
+        left join tab_agent t2 on t2.agent_id=t1.agent_id
+        <where>
+            <if test="coachIdList != null">
+                and t.coach_id IN
+                <foreach collection="coachIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+                and coach_separate_status=1 and to_days(test_time) = to_days(now())
+            </if>
+        </where>
+    </select>
+
+
+    <select id="finAgentTotalRevenue" resultType="BigDecimal">
+        SELECT
+        <if test="level ==0">
+            COALESCE(SUM(agent_1_money),0) AS agent1Money
+        </if>
+        <if test="level ==1">
+            COALESCE(SUM(agent_2_money),0)AS agent2Money
+        </if>
+        <if test="level ==2">
+            COALESCE(SUM(agent_3_money),0)AS agent3Money
+        </if>
+        FROM tab_separate_account
+        <where>
+            <if test="level ==0">
+                agent_1_id = #{agentId}
+                and agent_1_separate_status=1
+            </if>
+            <if test="level ==1">
+                agent_2_id = #{agentId}
+                and agent_2_separate_status=1
+            </if>
+            <if test="level ==2">
+                agent_3_id = #{agentId}
+                and agent_3_separate_status=1
+            </if>
+        </where>
+    </select>
+    <select id="getOneAgentMoney" resultType="com.bootdo.coach.domain.TabSeparateAccount" parameterType="Map">
+         SELECT
+        coach_id AS coachId,coach_name AS coachName,SUM(coach_money) AS coachMoney,create_time AS createTime,order_id AS orderId
+       FROM tab_separate_account
+       where agent_1_id=#{agentId} and coach_separate_status=1
+       GROUP BY coach_id
+       ORDER BY coachMoney DESC
+       LIMIT 0 ,10
+    </select>
+
+    <select id="getTwoAgentMoney" resultType="com.bootdo.coach.domain.TabSeparateAccount" parameterType="Map">
+         SELECT
+        coach_id AS coachId,coach_name AS coachName,SUM(coach_money) AS coachMoney,create_time AS createTime,order_id AS orderId
+       FROM tab_separate_account
+       where agent_2_id=#{agentId} and coach_separate_status=1
+       GROUP BY coach_id
+       ORDER BY coachMoney DESC
+       LIMIT 0 ,10
+    </select>
+
+    <select id="getThreeAgentMoney" resultType="com.bootdo.coach.domain.TabSeparateAccount" parameterType="Map">
+         SELECT
+       coach_id AS coachId,coach_name AS coachName,SUM(coach_money) AS coachMoney,create_time AS createTime,order_id AS orderId
+       FROM tab_separate_account
+       where agent_3_id=#{agentId} and coach_separate_status=1
+       GROUP BY coach_id
+       ORDER BY coachMoney DESC
+       LIMIT 0 ,10
+    </select>
+    <select id="getTimeWholeMoney" resultType="com.bootdo.coach.domain.TabSeparateAccount"
+            parameterType="java.lang.Long">
+        SELECT
+        coach_id,coach_name,SUM(coach_money) AS coachMoney,test_time AS testTime,order_id AS orderId
+        FROM tab_separate_account
+        <where>
+            coach_separate_status=1
+            <if test="typeId ==1">
+                and to_days(test_time) = to_days(now())
+            </if>
+            <if test="typeId ==7">
+                and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(test_time)
+            </if>
+            <if test="typeId ==30">
+                and DATE_FORMAT( test_time,'%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m')
+            </if>
+        </where>
+        GROUP BY coach_id
+        ORDER BY coachMoney DESC
+        LIMIT 0 ,10
+    </select>
+
+    <select id="getTimeAgentMoney" resultType="com.bootdo.coach.domain.TabSeparateAccount"
+            parameterType="com.bootdo.coach.vo.TabSeparateAccountVo">
+        SELECT
+        coach_id,coach_name,SUM(coach_money) AS coachMoney,test_time AS testTime,order_id AS orderId
+        FROM tab_separate_account
+        <where>
+            coach_separate_status=1
+            <if test="level ==0">
+                and agent_1_id = #{agentId}
+            </if>
+            <if test="level ==1">
+                and agent_2_id = #{agentId}
+            </if>
+            <if test="level ==2">
+                and agent_3_id = #{agentId}
+            </if>
+            <if test="typeId ==1">
+                and to_days(test_time) = to_days(now())
+            </if>
+            <if test="typeId ==7">
+                and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(test_time)
+            </if>
+            <if test="typeId ==30">
+                and DATE_FORMAT( test_time,'%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m')
+            </if>
+        </where>
+        GROUP BY coach_id
+        ORDER BY coachMoney DESC
+        LIMIT 0 ,10
+    </select>
+    <select id="getWholeMoney" resultType="com.bootdo.coach.domain.TabSeparateAccount" parameterType="Map">
+       SELECT
+       coach_id,coach_name,SUM(coach_money) AS coachMoney,create_time AS createTime,order_id AS orderId
+       FROM tab_separate_account
+       where coach_separate_status=1
+       GROUP BY coach_id
+       ORDER BY coachMoney DESC
+       LIMIT 0 ,10
+    </select>
+</mapper>

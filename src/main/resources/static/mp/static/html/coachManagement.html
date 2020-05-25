@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:td="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <link href="../css/weui.min.css" rel="stylesheet">
+    <link href="../css/weuix.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquetyWeui.js"></script>
+    <title>教练管理</title>
+</head>
+
+<body>
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" id="coach_name" placeholder="名称">
+    </div>
+</div>
+
+
+<!--设备标识-->
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">微信号</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" id="weChatNumber" placeholder="微信号">
+    </div>
+</div>
+
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" id="tel" placeholder="手机号">
+    </div>
+</div>
+
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">分成比例</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" id="scale" placeholder="添加教练(填写1-80)">
+    </div>
+</div>
+
+<!--收费模式-->
+<div class="weui-cell weui-cell_select weui-cell_select-after" id="feeModelDiv">
+    <div class="weui-cell__hd">
+        <label class="weui-label">收费模式</label>
+    </div>
+    <div class="weui-cell__bd">
+        <select class="weui-select" name="select2" id="fee_model">
+            <option value="1">按小时</option>
+            <option value="2">按次数</option>
+        </select>
+    </div>
+</div>
+
+
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">费率</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" id="rate" placeholder="多少钱/次/小时">
+    </div>
+</div>
+
+
+
+
+<div class="weui-cell">
+    <div class="weui-cell__bd">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="btn">查询</a>
+    </div>
+    <div class="weui-cell__bd" style="margin-left: 10px">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="addCoach">添加</a>
+    </div>
+</div>
+
+<div id="content"></div>
+
+
+<script>
+    var localStorage = window.localStorage;
+    $(function () {
+
+        var userData = localStorage.getItem(AGENT_KEY);
+        if (userData == null) {
+            $.toast("你不是代理商,无法查看", 2000);
+            return
+        }
+        userData = JSON.parse(userData);
+        var requestData = {
+            "agent_id": userData.agent_id,
+            "token": userData.token,
+        };
+        console.log(JSON.stringify(requestData));
+
+
+        $.ajax({
+            url: coachFind_url,
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                $("#content").children("div").remove();
+                $("#content").children("h4").remove();
+                // alert("data.coach_list.length == "+data.coach_list.length);
+                if (data.code === 0) {
+                    if (data.coach_list.length == 0) {
+                        $.toast("没有找到此教练", 2000)
+                    } else {
+                        var list = data.coach_list;
+                        var length = data.coach_list.length;
+                        for (var i = 0; i < length; i++) {
+                            //刷新列表
+                            var rootDiv = $("<div class='weui-form-preview'>");
+                            $(rootDiv).css('margin', 10);
+                            var timeDiv = $("<div class='weui-form-preview__ft'>");
+                            var timeButton = $(" <button class='weui-form-preview__btn weui-form-preview__btn_primary' href='javascript:'>" + list[i].coach_name + "</button>");
+                            $(timeDiv).append(timeButton);
+
+                            var moneyDiv = $("<div class='weui-form-preview__hd'>");
+                            var moneyLabel = $("<label class='weui-form-preview__label'>分成比例</label>");
+                            var moneyEm = $("<em class='weui-form-preview__value'>" + list[i].divide + "%</em>");
+                            $(moneyDiv).append(moneyLabel);
+                            $(moneyDiv).append(moneyEm);
+
+                            var testDurationDiv = $("<div class='weui-form-preview__hd'>");
+                            var testDurationSubDiv = $("<div class='weui-form-preview__item'>");
+                            var testDurationLabel = $("<label class='weui-form-preview__label'>手机号</label>");
+                            var testDurationSpan = $("<span class='weui-form-preview__value'>" + list[i].tel + "</span>");
+                            $(testDurationDiv).append(testDurationSubDiv);
+                            $(testDurationSubDiv).append(testDurationLabel);
+                            $(testDurationSubDiv).append(testDurationSpan);
+
+                            var plateNumberDiv = $("<div class='weui-form-preview__hd'>");
+                            var plateNumberSubDiv = $("<div class='weui-form-preview__item'>");
+                            var plateNumberLabel = $("<label class='weui-form-preview__label'>微信号</label>");
+                            var plateNumberSpan = $("<span class='weui-form-preview__value'>" + list[i].account + "</span>");
+                            $(plateNumberDiv).append(plateNumberSubDiv);
+                            $(plateNumberSubDiv).append(plateNumberLabel);
+                            $(plateNumberSubDiv).append(plateNumberSpan);
+
+                            $(rootDiv).append(timeDiv);
+                            $(rootDiv).append(moneyDiv);
+                            $(rootDiv).append(testDurationDiv);
+                            $(rootDiv).append(plateNumberDiv);
+                            $("#content").append(rootDiv);
+                        }
+                    }
+                }
+            }
+        });
+
+
+
+        //添加教练
+        $("#addCoach").click(function () {
+            var weChatNumber = $("#weChatNumber").val();
+            var tel = $("#tel").val();
+            var scale = $("#scale").val();
+            var rate = $("#rate").val();
+            var fee_model = $("#fee_model").val();
+
+            var userData = localStorage.getItem(AGENT_KEY);
+        /*    if (userData == null) {
+                $.toast("你不是代理商,无法查看", 2000);
+                return
+            }*/
+            userData = JSON.parse(userData);
+            var requestData = {
+                "agent_id": userData.agent_id,
+                "token": userData.token,
+                "tel": tel,
+                "account": weChatNumber,
+                "divide": scale,
+                "charge_rate": rate,
+                "charge_type": fee_model,
+                "coach_name": $("#coach_name").val()
+            };
+            console.log(JSON.stringify(requestData));
+            $.ajax({
+                url: baseUrl+"coach_background/agent/addCoach.do",
+                type: TYPE_POST,
+                dataType: DATA_TYPE_JSON,
+                data: requestData,
+                success: function (data) {
+                    if (data.code == 0) {
+                        $.toast("用户编号:"+data.coach_id, 2000)
+                    } else {
+                        $.toast(data.msg, "forbidden", 2000)
+                    }
+                }
+            });
+        });
+    });
+
+    //获得用户下所有的教练
+    function getAllCoach(data) {
+        var requestData = {
+            "agent_id": data.agent_id,
+            "token": data.token,
+        };
+        $.ajax({
+            url: coachFind_url,
+            type: TYPE_POST,
+            dataType: DATA_TYPE_JSON,
+            data: requestData,
+            success: function (data) {
+                if (data.code == 0) {
+                    var length = data.coach_list.length;
+                    var appendContent = "";
+                    for (var i = 0; i < length; i++) {
+                        appendContent += "<option value=" + data.coach_list[i].coach_id + ">" + data.coach_list[i].coach_name + "</option>"
+                    }
+                    $("#ownCoach").append(appendContent);
+                }
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

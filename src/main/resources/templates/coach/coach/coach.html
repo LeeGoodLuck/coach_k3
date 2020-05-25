@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+                        <button shiro:hasPermission="coach:coach:coachAdd" type="button" class="btn  btn-primary"
+                                onclick="add(0)">
+                            <i class="fa fa-plus hidden" aria-hidden="true"></i>添加
+                        </button>
+                        <button shiro:hasPermission="coach:coach:coachExcel" type="button" class="btn  btn-primary"
+                                id="excel">
+                            <i class="fa fa-plus hidden" aria-hidden="true"></i>下载Excel表格
+                        </button>
+                    </div>
+
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reLoad()">查询</button>
+                    </div>
+                    <div class="columns pull-left">
+                        <h3>&nbsp;&nbsp;&nbsp;&nbsp;教练统计:
+                            <span id="total" style="color:red" th:text="${total}"> </span></h3>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="searchTel" type="text" class="form-control"
+                               placeholder="请输入要查询的教练手机">
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="searchName" type="text" class="form-control"
+                               placeholder="请输入要查询的教练名称">
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div>
+    <script type="text/javascript">
+        var s_add_h = 'hidden';
+        var s_edit_h = 'hidden';
+        var s_remove_h = 'hidden';
+    </script>
+</div>
+<div shiro:hasPermission="coach:coach:coachEdit">
+    <script type="text/javascript">
+        s_edit_h = '';
+    </script>
+</div>
+<div shiro:hasPermission="coach:coach:coachAdd">
+    <script type="text/javascript">
+        s_add_h = '';
+    </script>
+</div>
+<div shiro:hasPermission="coach:coach:coachRemove">
+    <script type="text/javascript">
+        var s_remove_h = '';
+    </script>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/coach/coach/coach.js"></script>
+</body>
+</html>

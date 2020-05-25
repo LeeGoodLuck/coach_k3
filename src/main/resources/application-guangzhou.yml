@@ -1,0 +1,94 @@
+server:
+  max-http-header-size: 4048576
+  port: 8069
+
+cer:
+  pkcs12path: apiclient_cert.p12
+bootdo:
+  #广州
+  uploadPath: /home/hzx/k3/files/
+  httpUrl: http://zxyoupin.com:8069/files/
+  username: admin
+  password: 111111
+logging:
+  config: classpath:log4j2.xml
+  level:
+    root: info
+    com.bootdo: debug
+spring:
+  datasource:
+    #广州
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://zxyoupin.com:3168/zn_coach
+    username: root
+    password: Gzdb@20191226
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true
+  redis:
+    #广州
+    database: 1
+    host: localhost
+    port: 6379
+#    password:
+    password: aa**123456
+    # 连接超时时间（毫秒）
+    timeout: 10000
+    jedis:
+      pool:
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 10
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+
+#微信 公众号支付相关配置
+weixin:
+  #广州
+  #app_secret
+  app_secret: b718abf90ed5f7fa4e1cd0f775b1d52f
+  #收费微信账号(由系统设置)
+  charge_account: 金牌教练路考仪厂家
+  #APP账号ID appid
+  app_id: wx80cc2fd4014aba97
+  #商户号    mch_id
+  mch_id: 1513085561
+  #支付秘钥
+  api_key: lioking9725211730790400107904001
+  #商品描述 body
+  body: 考试费用
+  #请求超时时间
+  timeout: 3000
+  #关注回调地址 callbackUrl
+  callbackUrl:
+  #异步回调地址 notify_url
+  notify_url: http://zxyoupin.com:8069/coach_background/student/weixinPayResult
+
+mina:
+  port: 1331
+
+#预付费用
+prepaid_expenses: 1

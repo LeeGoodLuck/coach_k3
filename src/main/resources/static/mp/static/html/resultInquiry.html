@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="../css/weui.min.css" rel="stylesheet">
+    <link href="../css/weuix.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/jquetyWeui.js"></script>
+    <title>成绩查询</title>
+</head>
+
+<body>
+
+<div class="weui-cell">
+    <div class="weui-cell__hd"><label class="weui-label">考试ID</label></div>
+    <div class="weui-cell__bd">
+        <input class="weui-input" pattern="[0-9]" id="exam_no" placeholder="考试ID(输入0为查询上次的成绩)" type="number">
+    </div>
+</div>
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="inquiry">查询</a>
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="historyQuery">历史查询</a>
+</div>
+
+<div id="content">
+</div>
+
+
+<script>
+
+    function resultInquiry() {
+        var exan_no = $("#exam_no").val();
+        if (exan_no == "") {
+            exan_no = 0
+        }
+        var studentInfo = JSON.parse(window.localStorage.getItem(STUDENT_KEY));
+        var requestData = {
+            "student_id": studentInfo.student_id,
+            "token": studentInfo.token,
+            "test_id": exan_no,
+        };
+        $.ajax({
+            url: resultInquiry_url,
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                $("#content").children("div").remove();
+
+                var rootDiv = $("<div class='weui-form-preview'>");
+                $(rootDiv).css('margin', 10);
+                var timeDiv = $("<div class='weui-form-preview__ft'>");
+                var timeButton = $(" <button class='weui-form-preview__btn weui-form-preview__btn_primary' href='javascript:'>" + data.test_time + "</button>");
+                $(timeDiv).append(timeButton);
+
+                var moneyDiv = $("<div class='weui-form-preview__hd'>");
+                var moneyLabel = $("<label class='weui-form-preview__label'>车牌</label>");
+                var moneyEm = $("<em class='weui-form-preview__value'>" + data.plate_number + "</em>");
+                $(moneyDiv).append(moneyLabel);
+                $(moneyDiv).append(moneyEm);
+
+                var testDurationDiv = $("<div class='weui-form-preview__hd'>");
+                var testDurationSubDiv = $("<div class='weui-form-preview__item'>");
+                var testDurationLabel = $("<label class='weui-form-preview__label'>时长(秒)</label>");
+                var testDurationSpan = $("<span class='weui-form-preview__value'>" + data.test_duration + "</span>");
+                $(testDurationDiv).append(testDurationSubDiv);
+                $(testDurationSubDiv).append(testDurationLabel);
+                $(testDurationSubDiv).append(testDurationSpan);
+
+                var plateNumberDiv = $("<div class='weui-form-preview__hd'>");
+                var plateNumberSubDiv = $("<div class='weui-form-preview__item'>");
+                var plateNumberLabel = $("<label class='weui-form-preview__label'>分数</label>");
+                var plateNumberSpan = $("<span class='weui-form-preview__value'>" + data.test_score + "</span>");
+                $(plateNumberDiv).append(plateNumberSubDiv);
+                $(plateNumberSubDiv).append(plateNumberLabel);
+                $(plateNumberSubDiv).append(plateNumberSpan);
+
+                /*    var moreBtn = $("<button type=\"submit\" class=\"weui-form-preview__btn weui-form-preview__btn_primary\" href=\"javascript:\"\n" +
+                        "                id=\"immediatelyPay\">查看更多\n" +
+                        "        </button>");
+                    moreBtn.onclick = onScore(data.test_data);
+
+                    var moreDiv = $(" <div class='weui-form-preview__ft'>");
+                    moreDiv.append(moreBtn);
+    */
+
+
+                $(rootDiv).append(timeDiv);
+                $(rootDiv).append(moneyDiv);
+                $(rootDiv).append(testDurationDiv);
+                $(rootDiv).append(plateNumberDiv);
+             /*   $(rootDiv).append(moreDiv);*/
+
+                var testData = JSON.parse(data.test_data);
+                for (var j = 0; j < testData.length; j++) {
+                    var pDom = $("<p>");
+                    pDom.html(testData[j].xm + "-" + testData[j].yy + "扣" + testData[j].fs+"分");
+                    pDom.css("margin-left",10);
+                    $(rootDiv).append(pDom);
+                }
+
+                $("#content").append(rootDiv);
+            }
+        });
+    }
+
+
+    function onScore(data) {
+        console.log(JSON.stringify(data))
+    }
+
+
+    $(function () {
+        var studentInfo = window.localStorage.getItem(STUDENT_KEY);
+        if (studentInfo == null) {
+            $.toast("请先进行学员登陆", "forbidden", 2000);
+            return
+        }
+    });
+
+    $("#inquiry").click(resultInquiry);
+
+    //考试查询
+    $("#historyQuery").click(function () {
+        var studentInfo = JSON.parse(window.localStorage.getItem(STUDENT_KEY));
+        var requestData = {
+            "student_id": studentInfo.student_id,
+            "token": studentInfo.token,
+            "pages_no": 1,
+            "perpage_number": 20,
+        };
+
+        $.ajax({
+            url: baseUrl+"coach_background/student/queryTestList.do",
+            type: TYPE_POST,
+            data: requestData,
+            dataType: DATA_TYPE_JSON,
+            success: function (data) {
+                $("#content").children("div").remove();
+
+                var list = data.test_list;
+                var length = list.length;
+
+                for (var i = 0; i < length; i++) {
+                    var rootDiv = $("<div class='weui-form-preview'>");
+                    $(rootDiv).css('margin', 10);
+                    var timeDiv = $("<div class='weui-form-preview__ft'>");
+                    var timeButton = $(" <button class='weui-form-preview__btn weui-form-preview__btn_primary' href='javascript:'>" + list[i].test_time + "</button>");
+                    $(timeDiv).append(timeButton);
+
+                    var moneyDiv = $("<div class='weui-form-preview__hd'>");
+                    var moneyLabel = $("<label class='weui-form-preview__label'>车牌</label>");
+                    var moneyEm = $("<em class='weui-form-preview__value'>" + list[i].plate_number + "</em>");
+                    $(moneyDiv).append(moneyLabel);
+                    $(moneyDiv).append(moneyEm);
+
+                    var testDurationDiv = $("<div class='weui-form-preview__hd'>");
+                    var testDurationSubDiv = $("<div class='weui-form-preview__item'>");
+                    var testDurationLabel = $("<label class='weui-form-preview__label'>时长(秒)</label>");
+                    var testDurationSpan = $("<span class='weui-form-preview__value'>" + list[i].test_duration + "</span>");
+                    $(testDurationDiv).append(testDurationSubDiv);
+                    $(testDurationSubDiv).append(testDurationLabel);
+                    $(testDurationSubDiv).append(testDurationSpan);
+
+                    var plateNumberDiv = $("<div class='weui-form-preview__hd'>");
+                    var plateNumberSubDiv = $("<div class='weui-form-preview__item'>");
+                    var plateNumberLabel = $("<label class='weui-form-preview__label'>分数</label>");
+                    var plateNumberSpan = $("<span class='weui-form-preview__value'>" + list[i].test_score + "</span>");
+                    $(plateNumberDiv).append(plateNumberSubDiv);
+                    $(plateNumberSubDiv).append(plateNumberLabel);
+                    $(plateNumberSubDiv).append(plateNumberSpan);
+
+                    var moreBtn = $("<button type=\"submit\" class=\"weui-form-preview__btn weui-form-preview__btn_primary\" href=\"javascript:\"\n" +
+                        "                id=\"immediatelyPay\">查看更多\n" +
+                        "        </button>");
+
+                    $(moreBtn).attr("value",list[i].test_id);
+
+                    $(moreBtn).click(function () {
+                        console.log(this.value)
+                        var testId = this.value;
+                        $("#exam_no").val(testId);
+                        resultInquiry();
+                    });
+
+                    var moreDiv = $(" <div class='weui-form-preview__ft'>");
+                    moreDiv.append(moreBtn);
+
+                    $(rootDiv).append(timeDiv);
+                    $(rootDiv).append(moneyDiv);
+                    $(rootDiv).append(testDurationDiv);
+                    $(rootDiv).append(plateNumberDiv);
+                    $(rootDiv).append(moreDiv);
+                    $("#content").append(rootDiv);
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

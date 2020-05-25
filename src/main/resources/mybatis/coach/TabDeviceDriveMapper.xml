@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabDeviceDriveMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabDeviceDrive" >
+    <id column="drive_id" property="driveId" jdbcType="BIGINT" />
+    <result column="drive_ver" property="driveVer" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    drive_id, drive_ver, file_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_device_drive
+    where drive_id = #{driveId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tab_device_drive
+    where drive_id = #{driveId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabDeviceDrive" >
+    insert into tab_device_drive (drive_id, drive_ver, file_url
+      )
+    values (#{driveId,jdbcType=BIGINT}, #{driveVer,jdbcType=VARCHAR}, #{fileUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabDeviceDrive" >
+    insert into tab_device_drive
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="driveId != null" >
+        drive_id,
+      </if>
+      <if test="driveVer != null" >
+        drive_ver,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="driveId != null" >
+        #{driveId,jdbcType=BIGINT},
+      </if>
+      <if test="driveVer != null" >
+        #{driveVer,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabDeviceDrive" >
+    update tab_device_drive
+    <set >
+      <if test="driveVer != null" >
+        drive_ver = #{driveVer,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where drive_id = #{driveId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabDeviceDrive" >
+    update tab_device_drive
+    set drive_ver = #{driveVer,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR}
+    where drive_id = #{driveId,jdbcType=BIGINT}
+  </update>
+</mapper>

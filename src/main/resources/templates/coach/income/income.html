@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reLoad()">查询</button>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="columns input-group date pull-right col-md-1 nopadding">
+                        <input id="endDate" type="text" class="form-control" style="width:150px;"
+                               placeholder="选择结束时间">
+                        <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                           </span>
+                    </div>
+                    <div class="columns input-group date pull-right col-md-1 nopadding">
+                        <input id="starDate" type="text" class="form-control" style="width:150px;"
+                               placeholder="选择开始时间">
+                        <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                           </span>
+                    </div>
+                </div>
+                <div class="columns pull-left">
+                    <h3>总收益:<span style="color:red" th:text="${revenue.totalMoney}"></span></h3>
+                </div>
+                <div class="columns pull-left">
+                    <h3>&nbsp;&nbsp;本月收益:<span style="color:red" th:text="${revenue.monthRevenue}"> </span></h3>
+                </div>
+                <div class="columns pull-left">
+                    <h3>&nbsp;&nbsp;近七天收益:<span style="color:red" th:text="${revenue.sevenRevenue}"></span></h3>
+                </div>
+                <div class="columns pull-left">
+                    <h3>&nbsp;&nbsp;本日收益:<span style="color:red" th:text="${revenue.dayRevenue}"> </span></h3>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+                <div class="columns pull-left"><p style="color:red">注：收益统计不会根据搜索条件而发生改变</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/coach/income/income.js"></script>
+</body>
+</html>

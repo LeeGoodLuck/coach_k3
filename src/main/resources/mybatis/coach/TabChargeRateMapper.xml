@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabChargeRateMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabChargeRate" >
+    <id column="charge_rate_id" property="chargeRateId" jdbcType="INTEGER" />
+    <result column="charge_type_id" property="chargeTypeId" jdbcType="INTEGER" />
+    <result column="charge_rate" property="chargeRate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    charge_rate_id, charge_type_id, charge_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_charge_rate
+    where charge_rate_id = #{chargeRateId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tab_charge_rate
+    where charge_rate_id = #{chargeRateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabChargeRate" >
+    insert into tab_charge_rate (charge_rate_id, charge_type_id, charge_rate
+      )
+    values (#{chargeRateId,jdbcType=INTEGER}, #{chargeTypeId,jdbcType=INTEGER}, #{chargeRate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabChargeRate" >
+    insert into tab_charge_rate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chargeRateId != null" >
+        charge_rate_id,
+      </if>
+      <if test="chargeTypeId != null" >
+        charge_type_id,
+      </if>
+      <if test="chargeRate != null" >
+        charge_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chargeRateId != null" >
+        #{chargeRateId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeTypeId != null" >
+        #{chargeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeRate != null" >
+        #{chargeRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabChargeRate" >
+    update tab_charge_rate
+    <set >
+      <if test="chargeTypeId != null" >
+        charge_type_id = #{chargeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeRate != null" >
+        charge_rate = #{chargeRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where charge_rate_id = #{chargeRateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabChargeRate" >
+    update tab_charge_rate
+    set charge_type_id = #{chargeTypeId,jdbcType=INTEGER},
+      charge_rate = #{chargeRate,jdbcType=DECIMAL}
+    where charge_rate_id = #{chargeRateId,jdbcType=INTEGER}
+  </update>
+</mapper>

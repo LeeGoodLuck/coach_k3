@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bootdo.coach.dao.TabChargeTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.bootdo.coach.domain.TabChargeType" >
+    <id column="charge_type_id" property="chargeTypeId" jdbcType="INTEGER" />
+    <result column="charge_type_name" property="chargeTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    charge_type_id, charge_type_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_charge_type
+    where charge_type_id = #{chargeTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tab_charge_type
+    where charge_type_id = #{chargeTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bootdo.coach.domain.TabChargeType" >
+    insert into tab_charge_type (charge_type_id, charge_type_name)
+    values (#{chargeTypeId,jdbcType=INTEGER}, #{chargeTypeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bootdo.coach.domain.TabChargeType" >
+    insert into tab_charge_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chargeTypeId != null" >
+        charge_type_id,
+      </if>
+      <if test="chargeTypeName != null" >
+        charge_type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chargeTypeId != null" >
+        #{chargeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeTypeName != null" >
+        #{chargeTypeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bootdo.coach.domain.TabChargeType" >
+    update tab_charge_type
+    <set >
+      <if test="chargeTypeName != null" >
+        charge_type_name = #{chargeTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where charge_type_id = #{chargeTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bootdo.coach.domain.TabChargeType" >
+    update tab_charge_type
+    set charge_type_name = #{chargeTypeName,jdbcType=VARCHAR}
+    where charge_type_id = #{chargeTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>
